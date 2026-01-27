@@ -17,7 +17,7 @@ class InventoryPage(BasePage):
     page_name = "InventoryPage"
 
     # 页面元素定位器
-    INVENTORY_CONTAINER = "#inventory_container"
+    INVENTORY_CONTAINER = "[data-test='inventory-container']"
     INVENTORY_ITEM = ".inventory_item"
     INVENTORY_ITEM_NAME = ".inventory_item_name"
     INVENTORY_ITEM_PRICE = ".inventory_item_price"
