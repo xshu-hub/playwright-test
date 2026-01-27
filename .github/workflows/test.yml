@@ -31,6 +31,11 @@ env:
   HEADLESS: true
   TIMEOUT: 30000
 
+# 全局权限设置
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   # 代码质量检查
   lint:
