@@ -1,0 +1,193 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      browser:
+        description: '选择浏览器'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - all
+      python-version:
+        description: 'Python 版本'
+        required: false
+        default: '3.11'
+        type: choice
+        options:
+          - '3.10'
+          - '3.11'
+          - '3.12'
+
+env:
+  HEADLESS: true
+  TIMEOUT: 30000
+
+jobs:
+  # 代码质量检查
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 安装 Ruff
+        run: pip install ruff
+
+      - name: 代码质量检查
+        run: ruff check .
+
+      - name: 代码格式检查
+        run: ruff format --check .
+
+  # 主测试任务
+  test:
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+        browser: ${{ github.event.inputs.browser == 'all' && fromJSON('["chromium", "firefox", "webkit"]') || fromJSON(format('["{0}"]', github.event.inputs.browser || 'chromium')) }}
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 安装 Playwright 浏览器
+        run: playwright install --with-deps ${{ matrix.browser }}
+
+      - name: 运行测试
+        run: |
+          pytest --browser-type=${{ matrix.browser }} \
+                 --alluredir=reports/allure-results \
+                 -v \
+                 --tb=short
+        env:
+          BASE_URL: https://www.saucedemo.com
+          HEADLESS: true
+
+      - name: 上传 Allure 结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-py${{ matrix.python-version }}-${{ matrix.browser }}
+          path: reports/allure-results/
+          retention-days: 30
+
+      - name: 上传截图（如果测试失败）
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots-py${{ matrix.python-version }}-${{ matrix.browser }}
+          path: |
+            test-results/
+            reports/
+          retention-days: 7
+
+  # Allure 报告生成
+  allure-report:
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 下载所有 Allure 结果
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results
+          merge-multiple: true
+
+      - name: 生成 Allure 报告
+        uses: simple-elf/allure-report-action@v1.9
+        with:
+          allure_results: allure-results
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: 发布 Allure 报告到 GitHub Pages
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-report
+
+      - name: 上传 Allure 报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+          retention-days: 30
+
+  # PR 冒烟测试（快速反馈）
+  smoke-test:
+    runs-on: ubuntu-latest
+    needs: lint
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 安装依赖
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 安装 Chromium
+        run: playwright install --with-deps chromium
+
+      - name: 运行冒烟测试
+        run: |
+          pytest -m smoke \
+                 --browser-type=chromium \
+                 --alluredir=reports/allure-results \
+                 -v
+        env:
+          BASE_URL: https://www.saucedemo.com
+          HEADLESS: true
+
+      - name: 上传冒烟测试结果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-results
+          path: reports/allure-results/
+          retention-days: 7

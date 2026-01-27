@@ -1,0 +1,81 @@
+{
+  "users": {
+    "standard_user": {
+      "username": "standard_user",
+      "password": "secret_sauce",
+      "description": "标准用户，可正常登录"
+    },
+    "locked_out_user": {
+      "username": "locked_out_user",
+      "password": "secret_sauce",
+      "description": "被锁定用户，无法登录"
+    },
+    "problem_user": {
+      "username": "problem_user",
+      "password": "secret_sauce",
+      "description": "问题用户，部分功能异常"
+    },
+    "performance_glitch_user": {
+      "username": "performance_glitch_user",
+      "password": "secret_sauce",
+      "description": "性能问题用户，响应较慢"
+    },
+    "error_user": {
+      "username": "error_user",
+      "password": "secret_sauce",
+      "description": "错误用户，会触发错误"
+    },
+    "visual_user": {
+      "username": "visual_user",
+      "password": "secret_sauce",
+      "description": "视觉用户，界面有差异"
+    }
+  },
+  "checkout_info": {
+    "valid": {
+      "first_name": "Test",
+      "last_name": "User",
+      "postal_code": "12345"
+    },
+    "empty": {
+      "first_name": "",
+      "last_name": "",
+      "postal_code": ""
+    }
+  },
+  "products": [
+    {
+      "name": "Sauce Labs Backpack",
+      "price": "$29.99"
+    },
+    {
+      "name": "Sauce Labs Bike Light",
+      "price": "$9.99"
+    },
+    {
+      "name": "Sauce Labs Bolt T-Shirt",
+      "price": "$15.99"
+    },
+    {
+      "name": "Sauce Labs Fleece Jacket",
+      "price": "$49.99"
+    },
+    {
+      "name": "Sauce Labs Onesie",
+      "price": "$7.99"
+    },
+    {
+      "name": "Test.allTheThings() T-Shirt (Red)",
+      "price": "$15.99"
+    }
+  ],
+  "error_messages": {
+    "locked_user": "Epic sadface: Sorry, this user has been locked out.",
+    "invalid_credentials": "Epic sadface: Username and password do not match any user in this service",
+    "empty_username": "Epic sadface: Username is required",
+    "empty_password": "Epic sadface: Password is required",
+    "empty_first_name": "Error: First Name is required",
+    "empty_last_name": "Error: Last Name is required",
+    "empty_postal_code": "Error: Postal Code is required"
+  }
+}

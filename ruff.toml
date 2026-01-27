@@ -1,0 +1,67 @@
+# Ruff 配置文件
+# https://docs.astral.sh/ruff/configuration/
+
+# 目标 Python 版本
+target-version = "py310"
+
+# 行长度限制
+line-length = 100
+
+# 排除目录
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    "reports",
+    "logs",
+]
+
+[lint]
+# 启用的规则集
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "SIM",    # flake8-simplify
+]
+
+# 忽略的规则
+ignore = [
+    "E501",   # 行长度由 line-length 控制
+    "B008",   # 函数调用作为默认参数（Playwright 常用模式）
+    "N802",   # 函数名小写（测试类中常见驼峰命名）
+    "N803",   # 参数名小写
+    "SIM108", # 三元表达式（有时可读性更重要）
+]
+
+# 允许自动修复的规则
+fixable = ["ALL"]
+
+# 不自动修复的规则
+unfixable = []
+
+[lint.per-file-ignores]
+# 测试文件特殊忽略
+"tests/*.py" = [
+    "N802",   # 测试函数名可以更灵活
+    "N803",   # 参数名可以更灵活
+]
+
+[lint.isort]
+# import 排序配置
+known-first-party = ["pages", "config", "utils"]
+force-single-line = false
+combine-as-imports = true
+
+[format]
+# 格式化配置
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
