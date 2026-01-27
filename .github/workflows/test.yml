@@ -35,6 +35,7 @@ env:
 permissions:
   contents: write
   pages: write
+  id-token: write
 
 jobs:
   # 代码质量检查
@@ -139,21 +140,40 @@ jobs:
 
       - name: 获取历史报告
         continue-on-error: true
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages-history
+        run: |
+          git clone --depth 1 --branch gh-pages https://github.com/${{ github.repository }}.git gh-pages-history || echo "No gh-pages branch found"
 
       - name: 复制历史记录
         run: |
           mkdir -p allure-results/history
           if [ -d "gh-pages-history/history" ]; then
-            cp -r gh-pages-history/history/* allure-results/history/ || true
+            echo "Found history directory, copying..."
+            cp -r gh-pages-history/history/* allure-results/history/ 2>/dev/null || true
+            ls -la allure-results/history/ || true
+          else
+            echo "No history directory found, skipping..."
           fi
+
+      - name: 验证 Allure 结果
+        run: |
+          echo "=== Allure results directory structure ==="
+          ls -la allure-results/ || echo "No allure-results directory"
+          echo "=== Number of result files ==="
+          find allure-results -name "*.json" | wc -l
 
       - name: 生成 Allure 报告
         run: |
           allure generate allure-results -o allure-report --clean
+
+      - name: 添加 .nojekyll 文件并验证报告结构
+        run: |
+          touch allure-report/.nojekyll
+          echo "=== Allure report structure ==="
+          ls -la allure-report/
+          echo "=== Data directory ==="
+          ls -la allure-report/data/ || echo "No data directory"
+          echo "=== Test cases count ==="
+          ls allure-report/data/test-cases/ 2>/dev/null | wc -l || echo "No test-cases directory"
 
       - name: 发布 Allure 报告到 GitHub Pages
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
@@ -162,6 +182,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-report
+          keep_files: false
 
       - name: 上传 Allure 报告
         uses: actions/upload-artifact@v4
