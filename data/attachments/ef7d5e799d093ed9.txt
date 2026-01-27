@@ -1,7 +1,0 @@
-2026-01-27 18:15:41 [INFO] [LoginPage] 导航到: https://www.saucedemo.com
-2026-01-27 18:15:42 [INFO] [LoginPage] 输入成功: #user-name
-2026-01-27 18:15:42 [INFO] [LoginPage] 输入成功: #password
-2026-01-27 18:15:42 [INFO] [LoginPage] 点击成功: #login-button
-2026-01-27 18:15:42 [INFO] [InventoryPage] 已添加第 0 个商品到购物车
-2026-01-27 18:15:42 [INFO] [InventoryPage] 已添加第 1 个商品到购物车
-2026-01-27 18:15:42 [INFO] [InventoryPage] 已添加第 2 个商品到购物车
