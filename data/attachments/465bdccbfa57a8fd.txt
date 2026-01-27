@@ -1,0 +1,30 @@
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://www.saucedemo.com
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://www.saucedemo.com
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: #user-name -> 'st***********'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: #user-name
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: #password -> 'se**********'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: #password
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: #login-button
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: #login-button
+DEBUG    playwright-test:logger.py:125 [InventoryPage] 页面对象已初始化
+DEBUG    playwright-test:logger.py:125 [CartPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [InventoryPage] 已添加第 0 个商品到购物车
+DEBUG    playwright-test:logger.py:125 [InventoryPage] 点击元素: .shopping_cart_link
+INFO     playwright-test:logger.py:129 [InventoryPage] 点击成功: .shopping_cart_link
+DEBUG    playwright-test:logger.py:125 [CartPage] 点击元素: [data-test='checkout']
+INFO     playwright-test:logger.py:129 [CartPage] 点击成功: [data-test='checkout']
+DEBUG    playwright-test:logger.py:125 [CartPage] 输入文本: [data-test='firstName'] -> 'Te**'
+INFO     playwright-test:logger.py:129 [CartPage] 输入成功: [data-test='firstName']
+DEBUG    playwright-test:logger.py:125 [CartPage] 输入文本: [data-test='lastName'] -> 'Us**'
+INFO     playwright-test:logger.py:129 [CartPage] 输入成功: [data-test='lastName']
+DEBUG    playwright-test:logger.py:125 [CartPage] 输入文本: [data-test='postalCode'] -> '12***'
+INFO     playwright-test:logger.py:129 [CartPage] 输入成功: [data-test='postalCode']
+DEBUG    playwright-test:logger.py:125 [CartPage] 点击元素: [data-test='continue']
+INFO     playwright-test:logger.py:129 [CartPage] 点击成功: [data-test='continue']
+DEBUG    playwright-test:logger.py:125 [CartPage] 点击元素: [data-test='finish']
+INFO     playwright-test:logger.py:129 [CartPage] 点击成功: [data-test='finish']
+DEBUG    playwright-test:logger.py:125 [CartPage] 检查元素可见性: #checkout_complete_container
+DEBUG    playwright-test:logger.py:125 [CartPage] 元素可见: #checkout_complete_container
+DEBUG    playwright-test:logger.py:125 [CartPage] 获取文本: .complete-header
+DEBUG    playwright-test:logger.py:125 [CartPage] 获取文本成功: 'Thank you for your order!'

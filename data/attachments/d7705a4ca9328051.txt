@@ -1,0 +1,10 @@
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://www.saucedemo.com
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://www.saucedemo.com
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: #user-name -> 'st***********'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: #user-name
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: #password -> 'se**********'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: #password
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: #login-button
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: #login-button
+DEBUG    playwright-test:logger.py:125 [LoginPage] 当前 URL: https://www.saucedemo.com/inventory.html
