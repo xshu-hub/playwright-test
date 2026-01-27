@@ -46,7 +46,7 @@ jobs:
           cache: 'pip'
 
       - name: 安装 Ruff
-        run: pip install ruff
+        run: pip install ruff>=0.14.0
 
       - name: 代码质量检查
         run: ruff check .

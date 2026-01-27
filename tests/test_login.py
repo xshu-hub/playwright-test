@@ -75,9 +75,9 @@ class TestLogin:
         with allure.step("验证显示正确的错误消息"):
             assert login_page.is_error_displayed(), "未显示错误消息"
             actual_error = login_page.get_error_message()
-            assert (
-                expected_error.lower() in actual_error.lower()
-            ), f"错误消息不匹配\n期望包含: {expected_error}\n实际: {actual_error}"
+            assert expected_error.lower() in actual_error.lower(), (
+                f"错误消息不匹配\n期望包含: {expected_error}\n实际: {actual_error}"
+            )
 
     @allure.story("登录失败")
     @allure.title("使用被锁定用户登录失败")
@@ -98,9 +98,9 @@ class TestLogin:
         with allure.step("验证显示完整错误消息"):
             assert login_page.is_error_displayed(), "未显示错误消息"
             error_message = login_page.get_error_message()
-            assert (
-                error_message == expected_error
-            ), f"错误消息不完全匹配\n期望: {expected_error}\n实际: {error_message}"
+            assert error_message == expected_error, (
+                f"错误消息不完全匹配\n期望: {expected_error}\n实际: {error_message}"
+            )
 
     @allure.story("关闭错误提示")
     @allure.title("关闭登录错误提示")

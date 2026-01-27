@@ -279,9 +279,9 @@ class TestCheckout:
         with allure.step("验证显示正确的错误消息"):
             actual_error = cart_page.get_error_message()
             assert actual_error, "未显示错误消息"
-            assert (
-                expected_error.lower() in actual_error.lower()
-            ), f"错误消息不匹配\n期望包含: {expected_error}\n实际: {actual_error}"
+            assert expected_error.lower() in actual_error.lower(), (
+                f"错误消息不匹配\n期望包含: {expected_error}\n实际: {actual_error}"
+            )
 
     @allure.title("结账时必填信息验证")
     @allure.severity(allure.severity_level.NORMAL)
@@ -306,6 +306,6 @@ class TestCheckout:
         with allure.step("验证显示首个必填字段错误"):
             error_message = cart_page.get_error_message()
             assert error_message, "未显示错误消息"
-            assert (
-                expected_error.lower() in error_message.lower()
-            ), f"错误消息不匹配\n期望: {expected_error}\n实际: {error_message}"
+            assert expected_error.lower() in error_message.lower(), (
+                f"错误消息不匹配\n期望: {expected_error}\n实际: {error_message}"
+            )

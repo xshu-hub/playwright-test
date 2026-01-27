@@ -11,4 +11,4 @@ pytest-rerunfailures==14.0    # 失败重试机制
 pytest-timeout==2.3.1         # 测试超时控制
 
 # 代码质量
-ruff==0.4.0                   # 代码质量检查和格式化
+ruff>=0.14.0                  # 代码质量检查和格式化
