@@ -1,0 +1,4 @@
+2026-01-27 18:15:53 [INFO] [LoginPage] 导航到: https://www.saucedemo.com
+2026-01-27 18:15:54 [INFO] [LoginPage] 输入成功: #user-name
+2026-01-27 18:15:54 [INFO] [LoginPage] 输入成功: #password
+2026-01-27 18:15:54 [INFO] [LoginPage] 点击成功: #login-button

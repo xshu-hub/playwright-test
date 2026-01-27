@@ -1,25 +1,37 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
 "
+        数据驱动测试：验证有效用户可以登录
+        ","299","验证用户登录：标准用户，可正常登录","tests","Tue Jan 27 18:15:58 UTC 2026","passed","Tue Jan 27 18:15:58 UTC 2026","TestMultiUserLogin","test_login","",""
+"
+        测试从商品列表页移除购物车中的商品
+        ","2082","从商品列表页移除购物车商品","tests","Tue Jan 27 18:15:46 UTC 2026","passed","Tue Jan 27 18:15:48 UTC 2026","TestCart","test_cart","",""
+"
         数据驱动测试：结账时必填字段验证
-        ","215","结账验证：first_name 为空","tests","Tue Jan 27 18:09:21 UTC 2026","passed","Tue Jan 27 18:09:21 UTC 2026","TestCheckout","test_cart","",""
+        ","219","结账验证：last_name 为空","tests","Tue Jan 27 18:15:51 UTC 2026","passed","Tue Jan 27 18:15:51 UTC 2026","TestCheckout","test_cart","",""
+"
+        测试查看购物车中的商品详情
+        ","93","查看购物车中的商品","tests","Tue Jan 27 18:15:49 UTC 2026","passed","Tue Jan 27 18:15:49 UTC 2026","TestCart","test_cart","",""
 "
         数据驱动测试：登录失败场景
 
         使用 test_data.json 中的数据进行参数化测试，
         覆盖多种登录失败情况。
-        ","278","登录失败测试：空用户名登录","tests","Tue Jan 27 18:09:24 UTC 2026","passed","Tue Jan 27 18:09:24 UTC 2026","TestLogin","test_login","",""
+        ","287","登录失败测试：空密码登录","tests","Tue Jan 27 18:15:53 UTC 2026","passed","Tue Jan 27 18:15:54 UTC 2026","TestLogin","test_login","",""
 "
         数据驱动测试：验证有效用户可以登录
-        ","5286","验证用户登录：性能问题用户，响应较慢","tests","Tue Jan 27 18:09:29 UTC 2026","passed","Tue Jan 27 18:09:34 UTC 2026","TestMultiUserLogin","test_login","",""
+        ","5301","验证用户登录：性能问题用户，响应较慢","tests","Tue Jan 27 18:15:58 UTC 2026","passed","Tue Jan 27 18:16:04 UTC 2026","TestMultiUserLogin","test_login","",""
 "
-        数据驱动测试：添加指定商品到购物车并验证
-        ","100","添加商品到购物车：Sauce Labs Bolt T-Shirt","tests","Tue Jan 27 18:09:16 UTC 2026","passed","Tue Jan 27 18:09:16 UTC 2026","TestCart","test_cart","",""
+        测试从购物车返回继续购物
+        ","95","从购物车返回继续购物","tests","Tue Jan 27 18:15:49 UTC 2026","passed","Tue Jan 27 18:15:49 UTC 2026","TestCart","test_cart","",""
+"
+        测试使用被锁定用户登录（独立测试，验证完整错误消息）
+        ","297","使用被锁定用户登录失败","tests","Tue Jan 27 18:15:54 UTC 2026","passed","Tue Jan 27 18:15:54 UTC 2026","TestLogin","test_login","",""
 "
         数据驱动测试：登录失败场景
 
         使用 test_data.json 中的数据进行参数化测试，
         覆盖多种登录失败情况。
-        ","284","登录失败测试：空密码登录","tests","Tue Jan 27 18:09:24 UTC 2026","passed","Tue Jan 27 18:09:24 UTC 2026","TestLogin","test_login","",""
+        ","282","登录失败测试：空用户名登录","tests","Tue Jan 27 18:15:53 UTC 2026","passed","Tue Jan 27 18:15:53 UTC 2026","TestLogin","test_login","",""
 "
         测试添加单个商品到购物车
 
@@ -27,34 +39,7 @@
         1. 登录后进入商品列表页面
         2. 添加第一个商品到购物车
         3. 验证购物车数量变为 1
-        ","2054","添加单个商品到购物车","tests","Tue Jan 27 18:09:13 UTC 2026","passed","Tue Jan 27 18:09:15 UTC 2026","TestCart","test_cart","",""
-"
-        测试从商品列表页移除购物车中的商品
-        ","2083","从商品列表页移除购物车商品","tests","Tue Jan 27 18:09:17 UTC 2026","passed","Tue Jan 27 18:09:19 UTC 2026","TestCart","test_cart","",""
-"
-        测试查看购物车中的商品详情
-        ","100","查看购物车中的商品","tests","Tue Jan 27 18:09:20 UTC 2026","passed","Tue Jan 27 18:09:20 UTC 2026","TestCart","test_cart","",""
-"
-        测试使用被锁定用户登录（独立测试，验证完整错误消息）
-        ","287","使用被锁定用户登录失败","tests","Tue Jan 27 18:09:25 UTC 2026","passed","Tue Jan 27 18:09:25 UTC 2026","TestLogin","test_login","",""
-"
-        测试关闭错误提示
-
-        步骤:
-        1. 打开登录页面
-        2. 触发一个登录错误
-        3. 关闭错误提示
-        4. 验证错误提示已关闭
-        ","3321","关闭登录错误提示","tests","Tue Jan 27 18:09:25 UTC 2026","passed","Tue Jan 27 18:09:28 UTC 2026","TestLogin","test_login","",""
-"
-        数据驱动测试：验证有效用户可以登录
-        ","290","验证用户登录：问题用户，部分功能异常","tests","Tue Jan 27 18:09:29 UTC 2026","passed","Tue Jan 27 18:09:29 UTC 2026","TestMultiUserLogin","test_login","",""
-"
-        测试从购物车页面移除商品
-        ","169","从购物车页面移除商品","tests","Tue Jan 27 18:09:19 UTC 2026","passed","Tue Jan 27 18:09:19 UTC 2026","TestCart","test_cart","",""
-"
-        数据驱动测试：添加指定商品到购物车并验证
-        ","85","添加商品到购物车：Sauce Labs Backpack","tests","Tue Jan 27 18:09:15 UTC 2026","passed","Tue Jan 27 18:09:16 UTC 2026","TestCart","test_cart","",""
+        ","2065","添加单个商品到购物车","tests","Tue Jan 27 18:15:41 UTC 2026","passed","Tue Jan 27 18:15:44 UTC 2026","TestCart","test_cart","",""
 "
         测试使用标准用户登录
 
@@ -63,10 +48,7 @@
         2. 输入标准用户凭证
         3. 点击登录按钮
         4. 验证登录成功（跳转到商品页面）
-        ","300","使用标准用户登录成功","tests","Tue Jan 27 18:09:23 UTC 2026","passed","Tue Jan 27 18:09:23 UTC 2026","TestLogin","test_login","",""
-"
-        数据驱动测试：结账时必填字段验证
-        ","200","结账验证：last_name 为空","tests","Tue Jan 27 18:09:22 UTC 2026","passed","Tue Jan 27 18:09:22 UTC 2026","TestCheckout","test_cart","",""
+        ","300","使用标准用户登录成功","tests","Tue Jan 27 18:15:52 UTC 2026","passed","Tue Jan 27 18:15:53 UTC 2026","TestLogin","test_login","",""
 "
         测试添加多个商品到购物车
 
@@ -74,34 +56,52 @@
         1. 登录后进入商品列表页面
         2. 添加多个商品到购物车
         3. 验证购物车数量正确
-        ","132","添加多个商品到购物车","tests","Tue Jan 27 18:09:15 UTC 2026","passed","Tue Jan 27 18:09:15 UTC 2026","TestCart","test_cart","",""
+        ","128","添加多个商品到购物车","tests","Tue Jan 27 18:15:44 UTC 2026","passed","Tue Jan 27 18:15:44 UTC 2026","TestCart","test_cart","",""
 "
         数据驱动测试：登录失败场景
 
         使用 test_data.json 中的数据进行参数化测试，
         覆盖多种登录失败情况。
-        ","277","登录失败测试：错误凭证登录","tests","Tue Jan 27 18:09:24 UTC 2026","passed","Tue Jan 27 18:09:25 UTC 2026","TestLogin","test_login","",""
-"
-        数据驱动测试：登录失败场景
-
-        使用 test_data.json 中的数据进行参数化测试，
-        覆盖多种登录失败情况。
-        ","288","登录失败测试：被锁定用户登录","tests","Tue Jan 27 18:09:23 UTC 2026","passed","Tue Jan 27 18:09:24 UTC 2026","TestLogin","test_login","",""
-"
-        数据驱动测试：添加指定商品到购物车并验证
-        ","104","添加商品到购物车：Sauce Labs Bike Light","tests","Tue Jan 27 18:09:16 UTC 2026","passed","Tue Jan 27 18:09:16 UTC 2026","TestCart","test_cart","",""
-"
-        测试从购物车返回继续购物
-        ","120","从购物车返回继续购物","tests","Tue Jan 27 18:09:20 UTC 2026","passed","Tue Jan 27 18:09:20 UTC 2026","TestCart","test_cart","",""
-"
-        数据驱动测试：验证有效用户可以登录
-        ","291","验证用户登录：标准用户，可正常登录","tests","Tue Jan 27 18:09:28 UTC 2026","passed","Tue Jan 27 18:09:29 UTC 2026","TestMultiUserLogin","test_login","",""
-"
-        测试所有必填信息为空时的验证
-        ","169","结账时必填信息验证","tests","Tue Jan 27 18:09:23 UTC 2026","passed","Tue Jan 27 18:09:23 UTC 2026","TestCheckout","test_cart","",""
-"
-        测试完整的结账流程（使用测试数据）
-        ","221","完整结账流程","tests","Tue Jan 27 18:09:21 UTC 2026","passed","Tue Jan 27 18:09:21 UTC 2026","TestCheckout","test_cart","",""
+        ","285","登录失败测试：错误凭证登录","tests","Tue Jan 27 18:15:54 UTC 2026","passed","Tue Jan 27 18:15:54 UTC 2026","TestLogin","test_login","",""
 "
         数据驱动测试：结账时必填字段验证
-        ","189","结账验证：postal_code 为空","tests","Tue Jan 27 18:09:22 UTC 2026","passed","Tue Jan 27 18:09:22 UTC 2026","TestCheckout","test_cart","",""
+        ","228","结账验证：first_name 为空","tests","Tue Jan 27 18:15:50 UTC 2026","passed","Tue Jan 27 18:15:50 UTC 2026","TestCheckout","test_cart","",""
+"
+        数据驱动测试：登录失败场景
+
+        使用 test_data.json 中的数据进行参数化测试，
+        覆盖多种登录失败情况。
+        ","295","登录失败测试：被锁定用户登录","tests","Tue Jan 27 18:15:53 UTC 2026","passed","Tue Jan 27 18:15:53 UTC 2026","TestLogin","test_login","",""
+"
+        数据驱动测试：添加指定商品到购物车并验证
+        ","96","添加商品到购物车：Sauce Labs Bike Light","tests","Tue Jan 27 18:15:45 UTC 2026","passed","Tue Jan 27 18:15:45 UTC 2026","TestCart","test_cart","",""
+"
+        数据驱动测试：验证有效用户可以登录
+        ","296","验证用户登录：问题用户，部分功能异常","tests","Tue Jan 27 18:15:58 UTC 2026","passed","Tue Jan 27 18:15:58 UTC 2026","TestMultiUserLogin","test_login","",""
+"
+        数据驱动测试：添加指定商品到购物车并验证
+        ","116","添加商品到购物车：Sauce Labs Backpack","tests","Tue Jan 27 18:15:44 UTC 2026","passed","Tue Jan 27 18:15:45 UTC 2026","TestCart","test_cart","",""
+"
+        数据驱动测试：结账时必填字段验证
+        ","206","结账验证：postal_code 为空","tests","Tue Jan 27 18:15:51 UTC 2026","passed","Tue Jan 27 18:15:52 UTC 2026","TestCheckout","test_cart","",""
+"
+        测试完整的结账流程（使用测试数据）
+        ","267","完整结账流程","tests","Tue Jan 27 18:15:50 UTC 2026","passed","Tue Jan 27 18:15:50 UTC 2026","TestCheckout","test_cart","",""
+"
+        数据驱动测试：添加指定商品到购物车并验证
+        ","88","添加商品到购物车：Sauce Labs Bolt T-Shirt","tests","Tue Jan 27 18:15:45 UTC 2026","passed","Tue Jan 27 18:15:45 UTC 2026","TestCart","test_cart","",""
+"
+        测试从购物车页面移除商品
+        ","156","从购物车页面移除商品","tests","Tue Jan 27 18:15:48 UTC 2026","passed","Tue Jan 27 18:15:48 UTC 2026","TestCart","test_cart","",""
+"
+        测试关闭错误提示
+
+        步骤:
+        1. 打开登录页面
+        2. 触发一个登录错误
+        3. 关闭错误提示
+        4. 验证错误提示已关闭
+        ","3318","关闭登录错误提示","tests","Tue Jan 27 18:15:54 UTC 2026","passed","Tue Jan 27 18:15:58 UTC 2026","TestLogin","test_login","",""
+"
+        测试所有必填信息为空时的验证
+        ","186","结账时必填信息验证","tests","Tue Jan 27 18:15:52 UTC 2026","passed","Tue Jan 27 18:15:52 UTC 2026","TestCheckout","test_cart","",""

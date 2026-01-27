@@ -1,6 +1,0 @@
-2026-01-27 18:09:15 [INFO] [LoginPage] 导航到: https://www.saucedemo.com
-2026-01-27 18:09:15 [INFO] [LoginPage] 输入成功: #user-name
-2026-01-27 18:09:15 [INFO] [LoginPage] 输入成功: #password
-2026-01-27 18:09:15 [INFO] [LoginPage] 点击成功: #login-button
-2026-01-27 18:09:15 [INFO] [InventoryPage] 点击成功: [data-test='add-to-cart-sauce-labs-bolt-t-shirt']
-2026-01-27 18:09:15 [INFO] [InventoryPage] 点击成功: .shopping_cart_link
