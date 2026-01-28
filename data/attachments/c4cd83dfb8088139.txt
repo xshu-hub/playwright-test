@@ -1,4 +1,0 @@
-2026-01-28 16:09:14 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
-2026-01-28 16:09:17 [INFO] [LoginPage] 元素已可见: button[type='submit']
-2026-01-28 16:09:17 [INFO] [LoginPage] 输入成功: input[name='password']
-2026-01-28 16:09:17 [INFO] [LoginPage] 点击成功: button[type='submit']

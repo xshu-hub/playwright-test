@@ -1,9 +1,0 @@
-2026-01-28 16:10:00 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
-2026-01-28 16:10:05 [INFO] [LoginPage] 元素已可见: button[type='submit']
-2026-01-28 16:10:05 [INFO] [LoginPage] 输入成功: input[name='username']
-2026-01-28 16:10:05 [INFO] [LoginPage] 输入成功: input[name='password']
-2026-01-28 16:10:15 [INFO] [LoginPage] 点击成功: button[type='submit']
-2026-01-28 16:10:17 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
-2026-01-28 16:10:17 [INFO] [DashboardPage] 点击成功: .oxd-userdropdown
-2026-01-28 16:10:17 [INFO] [DashboardPage] 元素已可见: .oxd-dropdown-menu
-2026-01-28 16:10:22 [INFO] [DashboardPage] 点击成功: a:has-text('Logout')

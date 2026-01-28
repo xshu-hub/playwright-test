@@ -1,1 +1,1 @@
-{"total":3,"items":[{"uid":"a60f2e5feaf9693c62ed07aee2317586","name":"员工管理","statistic":{"failed":1,"broken":0,"skipped":1,"passed":3,"unknown":0,"total":5}},{"uid":"e6a3af47f0f20e38f229a60be60b4ea6","name":"复杂表单","statistic":{"failed":0,"broken":0,"skipped":2,"passed":4,"unknown":0,"total":6}},{"uid":"76c1a89e029bf2806c0ddb06b8505b0b","name":"登录功能","statistic":{"failed":0,"broken":0,"skipped":0,"passed":3,"unknown":0,"total":3}}]}
+{"total":0,"items":[]}
