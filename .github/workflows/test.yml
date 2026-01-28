@@ -68,8 +68,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
-        browser: ${{ github.event.inputs.browser == 'all' && fromJSON('["chromium", "firefox", "webkit"]') || fromJSON(format('["{0}"]', github.event.inputs.browser || 'chromium')) }}
+        # 手动运行时使用选择的版本，push/PR 时跑全部版本
+        python-version: ${{ github.event_name == 'workflow_dispatch' && fromJSON(format('["{0}"]', github.event.inputs.python-version)) || fromJSON('["3.10", "3.11", "3.12"]') }}
+        browser: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.browser == 'all' && fromJSON('["chromium", "firefox", "webkit"]') || fromJSON(format('["{0}"]', github.event.inputs.browser))) || fromJSON('["chromium"]') }}
     
     steps:
       - name: 检出代码
