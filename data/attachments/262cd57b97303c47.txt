@@ -1,0 +1,146 @@
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: button[type='submit'], 超时: 30000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='username'] -> 'Ad***'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='username']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='password'] -> 'ad******'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='password']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: .oxd-userdropdown, 超时: 15000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: .oxd-userdropdown
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 点击元素: .oxd-topbar-body-nav a:has-text('Add Employee')
+INFO     playwright-test:logger.py:129 [PIMPage] 点击成功: .oxd-topbar-body-nav a:has-text('Add Employee')
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 页面对象已初始化
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 等待元素可见: input[name='firstName'], 超时: 10000ms
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 元素已可见: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='firstName'] -> 'E2*******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='middleName'] -> 'Te**'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='middleName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='lastName'] -> 'Em******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='lastName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 当前 URL: https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素可见性: .oxd-toast--success
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素可见: .oxd-toast--success
+INFO     playwright-test:logger.py:129 [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [PIMPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 获取文本: .orangehrm-horizontal-padding span
+DEBUG    playwright-test:logger.py:125 [PIMPage] 获取文本成功: '(1) Record Found'
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: button[type='submit'], 超时: 30000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='username'] -> 'Ad***'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='username']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='password'] -> 'ad******'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='password']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: .oxd-userdropdown, 超时: 15000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: .oxd-userdropdown
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 点击元素: .oxd-topbar-body-nav a:has-text('Add Employee')
+INFO     playwright-test:logger.py:129 [PIMPage] 点击成功: .oxd-topbar-body-nav a:has-text('Add Employee')
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 页面对象已初始化
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 等待元素可见: input[name='firstName'], 超时: 10000ms
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 元素已可见: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='firstName'] -> 'E2*******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='middleName'] -> 'Te**'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='middleName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='lastName'] -> 'Em******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='lastName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 当前 URL: https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素可见性: .oxd-toast--success
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素可见: .oxd-toast--success
+INFO     playwright-test:logger.py:129 [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [PIMPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 获取文本: .orangehrm-horizontal-padding span
+DEBUG    playwright-test:logger.py:125 [PIMPage] 获取文本成功: '(1) Record Found'
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: button[type='submit'], 超时: 30000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='username'] -> 'Ad***'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='username']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='password'] -> 'ad******'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='password']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: .oxd-userdropdown, 超时: 15000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: .oxd-userdropdown
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+DEBUG    playwright-test:logger.py:125 [PIMPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [PIMPage] 等待元素可见: .oxd-table, 超时: 10000ms
+INFO     playwright-test:logger.py:129 [PIMPage] 元素已可见: .oxd-table
+DEBUG    playwright-test:logger.py:125 [PIMPage] 点击元素: .oxd-topbar-body-nav a:has-text('Add Employee')
+INFO     playwright-test:logger.py:129 [PIMPage] 点击成功: .oxd-topbar-body-nav a:has-text('Add Employee')
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 页面对象已初始化
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素是否隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素已隐藏: .oxd-loading-spinner
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 等待元素可见: input[name='firstName'], 超时: 10000ms
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 元素已可见: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='firstName'] -> 'E2*******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='firstName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='middleName'] -> 'Te**'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='middleName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 输入文本: input[name='lastName'] -> 'Em******'
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 输入成功: input[name='lastName']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [EmployeeFormPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 当前 URL: https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 检查元素可见性: .oxd-toast--success
+DEBUG    playwright-test:logger.py:125 [EmployeeFormPage] 元素不可见: .oxd-toast--success

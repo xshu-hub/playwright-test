@@ -1,0 +1,26 @@
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: button[type='submit'], 超时: 30000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='password'] -> 'ad******'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='password']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 检查元素可见性: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 元素可见: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 获取文本: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 获取文本成功: '需要'
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面对象已初始化
+INFO     playwright-test:logger.py:129 [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 页面加载完成: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+DEBUG    playwright-test:logger.py:125 [LoginPage] 等待元素可见: button[type='submit'], 超时: 30000ms
+INFO     playwright-test:logger.py:129 [LoginPage] 元素已可见: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 输入文本: input[name='password'] -> 'ad******'
+INFO     playwright-test:logger.py:129 [LoginPage] 输入成功: input[name='password']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 点击元素: button[type='submit']
+INFO     playwright-test:logger.py:129 [LoginPage] 点击成功: button[type='submit']
+DEBUG    playwright-test:logger.py:125 [LoginPage] 检查元素可见性: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 元素可见: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 获取文本: .oxd-input-group:has(input[name='username']) .oxd-input-field-error-message
+DEBUG    playwright-test:logger.py:125 [LoginPage] 获取文本成功: '需要'

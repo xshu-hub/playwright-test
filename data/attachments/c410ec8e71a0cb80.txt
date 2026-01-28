@@ -1,0 +1,9 @@
+2026-01-28 16:23:58 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:24:00 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:24:00 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:24:00 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:24:02 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:24:03 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:24:03 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:24:05 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:24:35 [ERROR] [PIMPage] 点击超时，元素未找到: .oxd-topbar-body-nav a:has-text('Add Employee')

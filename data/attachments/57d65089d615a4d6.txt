@@ -1,0 +1,27 @@
+2026-01-28 16:21:28 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:21:29 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:21:29 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:21:29 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:21:30 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:21:31 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:21:31 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:21:32 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:22:02 [ERROR] [PIMPage] 点击超时，元素未找到: .oxd-topbar-body-nav a:has-text('Add Employee')
+2026-01-28 16:22:03 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:22:04 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:22:04 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:22:04 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:22:05 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:22:06 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:22:06 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:22:08 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:22:38 [ERROR] [PIMPage] 点击超时，元素未找到: .oxd-topbar-body-nav a:has-text('Add Employee')
+2026-01-28 16:22:39 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:22:40 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:22:40 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:22:40 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:22:41 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:22:42 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:22:42 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:22:44 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:23:14 [ERROR] [PIMPage] 点击超时，元素未找到: .oxd-topbar-body-nav a:has-text('Add Employee')

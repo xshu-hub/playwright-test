@@ -1,0 +1,27 @@
+2026-01-28 16:18:33 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:18:35 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:18:35 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:18:35 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:18:38 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:18:39 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:18:39 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:18:42 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:18:44 [INFO] [PIMPage] 点击成功: .oxd-topbar-body-nav a:has-text('Add Employee')
+2026-01-28 16:18:47 [INFO] [EmployeeFormPage] 元素已可见: input[name='firstName']
+2026-01-28 16:18:47 [INFO] [EmployeeFormPage] 输入成功: input[name='firstName']
+2026-01-28 16:18:47 [INFO] [EmployeeFormPage] 输入成功: input[name='middleName']
+2026-01-28 16:18:47 [INFO] [EmployeeFormPage] 输入成功: input[name='lastName']
+2026-01-28 16:18:49 [INFO] [EmployeeFormPage] 点击成功: button[type='submit']
+2026-01-28 16:18:51 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:18:53 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:18:55 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:18:57 [INFO] [PIMPage] 点击成功: .oxd-topbar-body-nav a:has-text('Add Employee')
+2026-01-28 16:19:00 [INFO] [EmployeeFormPage] 元素已可见: input[name='firstName']
+2026-01-28 16:19:00 [INFO] [EmployeeFormPage] 输入成功: input[name='firstName']
+2026-01-28 16:19:00 [INFO] [EmployeeFormPage] 输入成功: input[name='middleName']
+2026-01-28 16:19:00 [INFO] [EmployeeFormPage] 输入成功: input[name='lastName']
+2026-01-28 16:19:03 [INFO] [EmployeeFormPage] 点击成功: button[type='submit']
+2026-01-28 16:19:05 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:19:08 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:19:10 [INFO] [PIMPage] 元素已可见: .oxd-table
+2026-01-28 16:19:10 [INFO] [PIMPage] 点击成功: button[type='submit']

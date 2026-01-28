@@ -1,0 +1,200 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"
+        数据驱动测试：登录失败场景
+
+        使用 test_data.json 中的数据进行参数化测试，
+        覆盖多种登录失败情况。
+        ","4764","登录失败测试：空用户名登录","tests","Wed Jan 28 16:28:32 UTC 2026","passed","Wed Jan 28 16:28:37 UTC 2026","TestLogin","test_login","",""
+"
+        测试编辑员工信息
+
+        步骤:
+        1. 打开 PIM 员工列表
+        2. 点击第一个员工的编辑按钮
+        3. 修改员工信息
+        4. 保存并验证
+        ","511","编辑员工信息","tests","Wed Jan 28 16:17:14 UTC 2026","skipped","Wed Jan 28 16:17:15 UTC 2026","TestEditEmployee","test_employee_e2e","",""
+"
+        测试退出登录功能
+
+        步骤:
+        1. 以已登录状态进入仪表盘
+        2. 点击用户菜单
+        3. 点击退出登录
+        4. 验证返回登录页面
+        ","7478","正常退出登录","tests","Wed Jan 28 16:29:17 UTC 2026","passed","Wed Jan 28 16:29:25 UTC 2026","TestLogout","test_login","",""
+"
+        测试按员工 ID 搜索
+
+        步骤:
+        1. 打开 PIM 员工列表
+        2. 获取第一个员工的 ID
+        3. 使用该 ID 进行搜索
+        4. 验证搜索结果
+        ","518","按员工 ID 搜索","tests","Wed Jan 28 16:17:07 UTC 2026","skipped","Wed Jan 28 16:17:07 UTC 2026","TestSearchEmployee","test_employee_e2e","",""
+"
+        测试员工编辑页面的 Tab 切换
+
+        步骤:
+        1. 进入员工编辑页面
+        2. 切换到不同的 Tab（个人详情、联系方式、工作信息等）
+        3. 验证各 Tab 页面正常加载
+        ","508","编辑员工 - 切换不同 Tab","tests","Wed Jan 28 16:26:37 UTC 2026","skipped","Wed Jan 28 16:26:38 UTC 2026","TestFormTabs","test_employee_form","",""
+"
+        测试空密码登录
+
+        步骤:
+        1. 打开登录页面
+        2. 只输入用户名，不输入密码
+        3. 点击登录
+        4. 验证显示必填字段错误
+        ","1710","空密码登录验证","tests","Wed Jan 28 16:28:30 UTC 2026","passed","Wed Jan 28 16:28:32 UTC 2026","TestLogin","test_login","",""
+"
+        测试批量员工操作
+
+        步骤:
+        1. 创建多个员工
+        2. 验证所有员工都已创建
+        3. 逐个删除
+        ","20559","批量创建和删除员工","tests","Wed Jan 28 16:20:22 UTC 2026","failed","Wed Jan 28 16:20:42 UTC 2026","TestEmployeeE2E","test_employee_e2e","",""
+"
+        测试空用户名登录
+
+        步骤:
+        1. 打开登录页面
+        2. 只输入密码，不输入用户名
+        3. 点击登录
+        4. 验证显示必填字段错误
+        ","2197","空用户名登录验证","tests","Wed Jan 28 16:28:28 UTC 2026","passed","Wed Jan 28 16:28:30 UTC 2026","TestLogin","test_login","",""
+"
+        测试取消删除员工
+
+        步骤:
+        1. 打开 PIM 员工列表
+        2. 点击删除按钮
+        3. 在确认对话框中点击取消
+        4. 验证员工未被删除
+        ","6160","取消删除员工","tests","Wed Jan 28 16:17:25 UTC 2026","passed","Wed Jan 28 16:17:31 UTC 2026","TestDeleteEmployee","test_employee_e2e","",""
+"
+        测试日期选择器
+
+        步骤:
+        1. 进入员工编辑页面
+        2. 找到出生日期输入框
+        3. 填写日期
+        4. 验证日期已填写
+        ","8871","填写出生日期","tests","Wed Jan 28 16:27:54 UTC 2026","passed","Wed Jan 28 16:28:03 UTC 2026","TestDatePicker","test_employee_form","",""
+"
+        测试创建员工时必填字段验证
+
+        步骤:
+        1. 打开添加员工表单
+        2. 不填写任何信息直接保存
+        3. 验证显示必填字段错误
+        ","0","创建员工 - 必填字段为空验证","tests","Wed Jan 28 16:21:36 UTC 2026","broken","Wed Jan 28 16:21:36 UTC 2026","TestFormValidation","test_employee_form","",""
+"
+        测试只填写名不填写姓的情况
+
+        步骤:
+        1. 只填写 First Name
+        2. 不填写 Last Name
+        3. 保存并验证错误
+        ","0","创建员工 - 只填写名不填写姓","tests","Wed Jan 28 16:23:53 UTC 2026","broken","Wed Jan 28 16:23:53 UTC 2026","TestFormValidation","test_employee_form","",""
+"
+        测试创建员工填写完整信息
+
+        步骤:
+        1. 填写员工基本信息
+        2. 自定义员工 ID
+        3. 保存员工
+        ","0","创建员工 - 填写完整信息","tests","Wed Jan 28 16:25:40 UTC 2026","broken","Wed Jan 28 16:25:40 UTC 2026","TestFormElements","test_employee_form","",""
+"
+        测试创建新员工（只填写基本信息）
+
+        步骤:
+        1. 导航到添加员工页面
+        2. 填写员工姓名
+        3. 保存
+        4. 验证保存成功
+        ","2780","创建新员工 - 基本信息","tests","Wed Jan 28 16:16:52 UTC 2026","passed","Wed Jan 28 16:16:55 UTC 2026","TestCreateEmployee","test_employee_e2e","",""
+"
+        测试使用错误凭证登录
+
+        步骤:
+        1. 打开登录页面
+        2. 输入错误的用户名和密码
+        3. 验证显示错误消息
+        ","3667","使用错误凭证登录失败","tests","Wed Jan 28 16:28:24 UTC 2026","passed","Wed Jan 28 16:28:28 UTC 2026","TestLogin","test_login","",""
+"
+        测试编辑员工联系方式
+
+        步骤:
+        1. 进入员工编辑页面
+        2. 切换到联系方式 Tab
+        3. 填写联系信息
+        4. 保存并验证
+        ","508","编辑员工 - 联系方式","tests","Wed Jan 28 16:27:29 UTC 2026","skipped","Wed Jan 28 16:27:30 UTC 2026","TestFormTabs","test_employee_form","",""
+"
+        数据驱动测试：登录失败场景
+
+        使用 test_data.json 中的数据进行参数化测试，
+        覆盖多种登录失败情况。
+        ","7228","登录失败测试：空密码登录","tests","Wed Jan 28 16:28:37 UTC 2026","passed","Wed Jan 28 16:28:44 UTC 2026","TestLogin","test_login","",""
+"
+        数据驱动测试：登录失败场景
+
+        使用 test_data.json 中的数据进行参数化测试，
+        覆盖多种登录失败情况。
+        ","11294","登录失败测试：错误凭证登录","tests","Wed Jan 28 16:28:44 UTC 2026","passed","Wed Jan 28 16:28:56 UTC 2026","TestLogin","test_login","",""
+"
+        测试选择国籍下拉框
+
+        步骤:
+        1. 进入员工编辑页面
+        2. 找到国籍下拉框
+        3. 选择一个国籍
+        4. 验证选择成功
+        ","9021","编辑员工 - 选择国籍","tests","Wed Jan 28 16:27:37 UTC 2026","passed","Wed Jan 28 16:27:46 UTC 2026","TestDropdowns","test_employee_form","",""
+"
+        数据驱动测试：登录失败场景
+
+        使用 test_data.json 中的数据进行参数化测试，
+        覆盖多种登录失败情况。
+        ","11179","登录失败测试：错误密码登录","tests","Wed Jan 28 16:28:56 UTC 2026","passed","Wed Jan 28 16:29:07 UTC 2026","TestLogin","test_login","",""
+"
+        测试员工完整生命周期
+
+        完整 E2E 流程:
+        1. 创建新员工
+        2. 搜索验证员工存在
+        3. 编辑员工信息
+        4. 再次验证修改
+        5. 删除员工
+        6. 验证员工已删除
+        ","9683","员工完整生命周期测试","tests","Wed Jan 28 16:18:23 UTC 2026","failed","Wed Jan 28 16:18:32 UTC 2026","TestEmployeeE2E","test_employee_e2e","",""
+"
+        测试使用管理员账号登录
+
+        步骤:
+        1. 打开登录页面
+        2. 输入管理员凭证
+        3. 点击登录按钮
+        4. 验证登录成功（跳转到仪表盘）
+        ","4215","使用管理员账号登录成功","tests","Wed Jan 28 16:28:20 UTC 2026","passed","Wed Jan 28 16:28:24 UTC 2026","TestLogin","test_login","",""
+"
+        测试创建员工时设置登录凭证
+
+        步骤:
+        1. 填写员工基本信息
+        2. 启用登录详情
+        3. 设置用户名和密码
+        4. 保存并验证
+        ","9386","创建员工并设置登录凭证","tests","Wed Jan 28 16:28:10 UTC 2026","passed","Wed Jan 28 16:28:19 UTC 2026","TestLoginDetails","test_employee_form","",""
+"
+        测试员工列表页面基本功能
+
+        步骤:
+        1. 打开 PIM 员工列表
+        2. 验证页面正常加载
+        3. 检查员工记录是否存在
+        ","818","搜索员工列表","tests","Wed Jan 28 16:17:00 UTC 2026","passed","Wed Jan 28 16:17:01 UTC 2026","TestSearchEmployee","test_employee_e2e","",""
