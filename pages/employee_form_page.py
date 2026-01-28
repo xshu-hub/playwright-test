@@ -6,7 +6,6 @@ EmployeeFormPage - OrangeHRM 员工表单页面对象
 import allure
 from playwright.sync_api import Page
 
-from config.settings import settings
 from pages.base_page import BasePage
 
 

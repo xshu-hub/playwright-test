@@ -3,6 +3,8 @@ PIMPage - OrangeHRM PIM（人员信息管理）页面对象
 封装员工列表、搜索、添加、编辑、删除等核心功能
 """
 
+import contextlib
+
 import allure
 from playwright.sync_api import Page
 
@@ -342,12 +344,10 @@ class PIMPage(BasePage):
                 continue
 
         # 方法3: 检查记录数
-        try:
+        with contextlib.suppress(Exception):
             count = self.get_employee_count()
             if count == 0:
                 return True
-        except Exception:
-            pass
 
         return False
 
@@ -440,10 +440,8 @@ class PIMPage(BasePage):
 
         if not clicked:
             # 最后尝试：直接点击对话框中的危险按钮
-            try:
+            with contextlib.suppress(Exception):
                 self.page.locator("button.oxd-button--label-danger").first.click()
-            except Exception:
-                pass
 
         # 等待删除操作完成
         self.page.wait_for_timeout(1500)
@@ -457,10 +455,8 @@ class PIMPage(BasePage):
                 continue
 
         # 等待可能的 Toast 消息
-        try:
+        with contextlib.suppress(Exception):
             self.is_visible(self.TOAST_MESSAGE, timeout=3000)
-        except Exception:
-            pass
 
         self.wait_for_table_update()
         return self

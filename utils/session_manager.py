@@ -4,9 +4,10 @@ Session 管理器
 针对 OrangeHRM 人力资源管理系统
 """
 
+import contextlib
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Callable
 
 from playwright.sync_api import Browser, BrowserContext, Page
 
@@ -91,9 +92,7 @@ class SessionManager:
         """检查 Session 文件是否有效"""
         if not session_file.exists():
             return False
-        if session_file.stat().st_size < 10:
-            return False
-        return True
+        return not session_file.stat().st_size < 10
 
     def _perform_login(self, page: Page, username: str, password: str) -> None:
         """
@@ -239,17 +238,13 @@ class SessionManager:
             username: 用户名
         """
         if username in self._pages:
-            try:
+            with contextlib.suppress(Exception):
                 self._pages[username].close()
-            except Exception:
-                pass
             del self._pages[username]
 
         if username in self._contexts:
-            try:
+            with contextlib.suppress(Exception):
                 self._contexts[username].close()
-            except Exception:
-                pass
             del self._contexts[username]
 
         logger.debug(f"已关闭用户 [{username}] 的 Session")

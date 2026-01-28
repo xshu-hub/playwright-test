@@ -8,7 +8,6 @@ import time
 import allure
 import pytest
 
-from pages.dashboard_page import DashboardPage
 from pages.employee_form_page import EmployeeFormPage
 from pages.pim_page import PIMPage
 from utils.data_loader import TestDataLoader
@@ -218,7 +217,7 @@ class TestDeleteEmployee:
                             attachment_type=allure.attachment_type.TEXT,
                         )
                         break
-                except Exception as e:
+                except Exception:
                     continue
 
             if not cancel_clicked:
@@ -268,7 +267,6 @@ class TestEmployeeE2E:
         6. 验证员工已删除
         """
         pim = logged_in_pim
-        employee_data = TestDataLoader.get_employee("new_employee")
 
         # 使用时间戳生成唯一的员工名
         timestamp = str(int(time.time()))[-6:]
@@ -332,7 +330,6 @@ class TestEmployeeE2E:
             assert "viewPersonalDetails" in form.get_current_url(), "未进入编辑页面"
 
             # 修改员工姓名
-            edit_data = TestDataLoader.get_employee("edit_employee")
             new_first_name = f"Updated{timestamp}"
 
             # 编辑姓名 - 使用多种选择器尝试

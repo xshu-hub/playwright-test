@@ -4,6 +4,7 @@ Pytest fixtures 配置文件
 针对 OrangeHRM 人力资源管理系统
 """
 
+import contextlib
 from collections.abc import Generator
 from pathlib import Path
 
@@ -161,10 +162,7 @@ def _is_session_valid(session_file: Path) -> bool:
     if not session_file.exists():
         return False
 
-    if session_file.stat().st_size < 10:
-        return False
-
-    return True
+    return not session_file.stat().st_size < 10
 
 
 @pytest.fixture(scope="session")
@@ -407,13 +405,11 @@ def pytest_runtest_makereport(item, call):
     if report.when == "call" and report.failed:
         page = item.funcargs.get("page") or item.funcargs.get("logged_in_page")
         if page and settings.SCREENSHOT_ON_FAILURE:
-            try:
+            with contextlib.suppress(Exception):
                 screenshot = page.screenshot(full_page=True)
                 allure.attach(
                     screenshot, name="失败截图", attachment_type=allure.attachment_type.PNG
                 )
-            except Exception:
-                pass
 
 
 def pytest_configure(config):

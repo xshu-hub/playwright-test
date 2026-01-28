@@ -99,9 +99,10 @@ pytest -m login          # 登录测试
 pytest -m cart           # 购物车测试
 pytest -m "smoke and login"  # 组合标记
 
-# 并行运行测试（需要 pytest-xdist）
-pytest -n auto           # 自动检测 CPU 核心数
-pytest -n 4              # 指定 4 个进程
+# 并行运行测试（pytest-xdist，已安装）
+pytest -n auto           # 按 CPU 核心数自动开进程（推荐）
+pytest -n 4              # 指定 4 个 worker
+pytest -n 2 tests/       # 只对 tests/ 目录并行，2 个进程
 
 # 跳过失败重试
 pytest --reruns 0
@@ -117,7 +118,21 @@ pytest tests/test_login.py
 pytest tests/test_login.py::TestLogin::test_login_with_standard_user
 ```
 
-### 4. 查看 Allure 报告
+### 4. 并行运行（可选）
+
+项目已安装 **pytest-xdist**，可直接并行执行用例以缩短总耗时：
+
+```bash
+# 自动按 CPU 核心数开 worker（推荐）
+pytest -n auto
+
+# 指定 worker 数量
+pytest -n 4
+```
+
+**说明：** 并行时每个 worker 是独立进程、各自起浏览器；与 `--reuse-session` / `--save-session` 同时用时，多进程可能同时读写同一 session 文件，建议并行时不启用 session 复用，或仅用 `-n 2` 等较小进程数并自行验证。
+
+### 5. 查看 Allure 报告
 
 ```bash
 # 生成并打开报告（需要安装 Allure 命令行工具）

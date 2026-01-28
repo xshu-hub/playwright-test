@@ -28,6 +28,7 @@ on:
           - '3.12'
 
 env:
+  BASE_URL: https://opensource-demo.orangehrmlive.com
   HEADLESS: true
   TIMEOUT: 30000
 
@@ -95,7 +96,6 @@ jobs:
                  -v \
                  --tb=short
         env:
-          BASE_URL: https://www.saucedemo.com
           HEADLESS: true
 
       - name: 上传 Allure 结果
@@ -222,7 +222,6 @@ jobs:
                  --alluredir=reports/allure-results \
                  -v
         env:
-          BASE_URL: https://www.saucedemo.com
           HEADLESS: true
 
       - name: 上传冒烟测试结果
