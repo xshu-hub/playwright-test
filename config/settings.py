@@ -1,6 +1,7 @@
 """
 项目配置模块
 支持通过环境变量覆盖默认配置
+针对 OrangeHRM 人力资源管理系统
 """
 
 import os
@@ -18,8 +19,8 @@ PROJECT_ROOT = Path(__file__).parent.parent
 class Settings:
     """项目配置类"""
 
-    # 基础 URL
-    BASE_URL: str = os.getenv("BASE_URL", "https://www.saucedemo.com")
+    # 基础 URL - OrangeHRM Demo
+    BASE_URL: str = os.getenv("BASE_URL", "https://opensource-demo.orangehrmlive.com")
 
     # 超时设置（毫秒）
     TIMEOUT: int = int(os.getenv("TIMEOUT", "30000"))
@@ -42,14 +43,13 @@ class Settings:
     SESSION_FILE: str = os.getenv("SESSION_FILE", "auth_state.json")
     REUSE_SESSION: bool = os.getenv("REUSE_SESSION", "false").lower() == "true"
 
-    # 测试用户凭证 - 从环境变量读取
-    STANDARD_USER: str = os.getenv("STANDARD_USER", "standard_user")
-    LOCKED_USER: str = os.getenv("LOCKED_USER", "locked_out_user")
-    PROBLEM_USER: str = os.getenv("PROBLEM_USER", "problem_user")
-    PERFORMANCE_USER: str = os.getenv("PERFORMANCE_USER", "performance_glitch_user")
-    ERROR_USER: str = os.getenv("ERROR_USER", "error_user")
-    VISUAL_USER: str = os.getenv("VISUAL_USER", "visual_user")
-    PASSWORD: str = os.getenv("TEST_PASSWORD", "secret_sauce")
+    # OrangeHRM 测试用户凭证
+    ADMIN_USER: str = os.getenv("ADMIN_USER", "Admin")
+    ADMIN_PASSWORD: str = os.getenv("ADMIN_PASSWORD", "admin123")
+
+    # 用于测试的默认用户（向后兼容）
+    DEFAULT_USER: str = ADMIN_USER
+    DEFAULT_PASSWORD: str = ADMIN_PASSWORD
 
     @classmethod
     def get_browser_config(cls) -> dict:

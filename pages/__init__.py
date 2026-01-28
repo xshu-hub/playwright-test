@@ -1,6 +1,18 @@
-from .base_page import BasePage
-from .cart_page import CartPage
-from .inventory_page import InventoryPage
-from .login_page import LoginPage
+"""
+Page Objects 模块
+提供 OrangeHRM 系统各页面的页面对象
+"""
 
-__all__ = ["BasePage", "LoginPage", "InventoryPage", "CartPage"]
+from pages.base_page import BasePage
+from pages.dashboard_page import DashboardPage
+from pages.employee_form_page import EmployeeFormPage
+from pages.login_page import LoginPage
+from pages.pim_page import PIMPage
+
+__all__ = [
+    "BasePage",
+    "LoginPage",
+    "DashboardPage",
+    "PIMPage",
+    "EmployeeFormPage",
+]

@@ -1,13 +1,13 @@
 """
 登录功能测试用例
-测试 saucedemo.com 的登录功能
-支持数据驱动测试
+测试 OrangeHRM 的登录功能
 """
 
 import allure
 import pytest
 
 from config.settings import settings
+from pages.dashboard_page import DashboardPage
 from pages.login_page import LoginPage
 from utils.data_loader import TestDataLoader
 
@@ -17,29 +17,105 @@ class TestLogin:
     """登录功能测试类"""
 
     @allure.story("正常登录")
-    @allure.title("使用标准用户登录成功")
+    @allure.title("使用管理员账号登录成功")
     @allure.severity(allure.severity_level.CRITICAL)
     @pytest.mark.smoke
     @pytest.mark.login
-    def test_login_with_standard_user(self, login_page: LoginPage):
+    def test_login_with_admin(self, login_page: LoginPage):
         """
-        测试使用标准用户登录
+        测试使用管理员账号登录
 
         步骤:
         1. 打开登录页面
-        2. 输入标准用户凭证
+        2. 输入管理员凭证
         3. 点击登录按钮
-        4. 验证登录成功（跳转到商品页面）
+        4. 验证登录成功（跳转到仪表盘）
         """
         with allure.step("打开登录页面"):
             login_page.open()
 
-        with allure.step("使用标准用户登录"):
-            login_page.login(settings.STANDARD_USER, settings.PASSWORD)
+        with allure.step("使用管理员账号登录"):
+            login_page.login(settings.ADMIN_USER, settings.ADMIN_PASSWORD)
 
         with allure.step("验证登录成功"):
-            assert login_page.is_logged_in(), "登录失败，未跳转到商品页面"
-            assert "inventory" in login_page.get_current_url()
+            assert login_page.is_logged_in(), "登录失败，未跳转到仪表盘"
+            assert "dashboard" in login_page.get_current_url().lower()
+
+    @allure.story("登录失败")
+    @allure.title("使用错误凭证登录失败")
+    @allure.severity(allure.severity_level.NORMAL)
+    @pytest.mark.login
+    def test_login_with_invalid_credentials(self, login_page: LoginPage):
+        """
+        测试使用错误凭证登录
+
+        步骤:
+        1. 打开登录页面
+        2. 输入错误的用户名和密码
+        3. 验证显示错误消息
+        """
+        with allure.step("打开登录页面"):
+            login_page.open()
+
+        with allure.step("使用错误凭证登录"):
+            login_page.login("invalid_user", "wrong_password")
+
+        with allure.step("验证显示错误消息"):
+            assert login_page.is_error_displayed(), "未显示错误消息"
+            error_message = login_page.get_error_message()
+            assert "invalid" in error_message.lower(), f"错误消息不正确: {error_message}"
+
+    @allure.story("登录失败")
+    @allure.title("空用户名登录验证")
+    @allure.severity(allure.severity_level.NORMAL)
+    @pytest.mark.login
+    def test_login_with_empty_username(self, login_page: LoginPage):
+        """
+        测试空用户名登录
+
+        步骤:
+        1. 打开登录页面
+        2. 只输入密码，不输入用户名
+        3. 点击登录
+        4. 验证显示必填字段错误
+        """
+        with allure.step("打开登录页面"):
+            login_page.open()
+
+        with allure.step("只输入密码"):
+            login_page.enter_password(settings.ADMIN_PASSWORD)
+            login_page.click_login()
+
+        with allure.step("验证显示必填字段错误"):
+            error = login_page.get_field_error("username")
+            assert error, "未显示用户名必填错误"
+            assert "required" in error.lower(), f"错误消息不正确: {error}"
+
+    @allure.story("登录失败")
+    @allure.title("空密码登录验证")
+    @allure.severity(allure.severity_level.NORMAL)
+    @pytest.mark.login
+    def test_login_with_empty_password(self, login_page: LoginPage):
+        """
+        测试空密码登录
+
+        步骤:
+        1. 打开登录页面
+        2. 只输入用户名，不输入密码
+        3. 点击登录
+        4. 验证显示必填字段错误
+        """
+        with allure.step("打开登录页面"):
+            login_page.open()
+
+        with allure.step("只输入用户名"):
+            login_page.enter_username(settings.ADMIN_USER)
+            login_page.click_login()
+
+        with allure.step("验证显示必填字段错误"):
+            error = login_page.get_field_error("password")
+            assert error, "未显示密码必填错误"
+            assert "required" in error.lower(), f"错误消息不正确: {error}"
 
     @allure.story("登录失败")
     @allure.severity(allure.severity_level.NORMAL)
@@ -58,103 +134,54 @@ class TestLogin:
         使用 test_data.json 中的数据进行参数化测试，
         覆盖多种登录失败情况。
         """
-        expected_error = TestDataLoader.get_error_message(error_key)
-
         allure.dynamic.title(f"登录失败测试：{description}")
 
         with allure.step("打开登录页面"):
             login_page.open()
 
-        with allure.step(f"使用凭证登录 - {description}"):
+        with allure.step(f"尝试登录 - {description}"):
             if username:
                 login_page.enter_username(username)
             if password:
                 login_page.enter_password(password)
             login_page.click_login()
 
-        with allure.step("验证显示正确的错误消息"):
-            assert login_page.is_error_displayed(), "未显示错误消息"
-            actual_error = login_page.get_error_message()
-            assert expected_error.lower() in actual_error.lower(), (
-                f"错误消息不匹配\n期望包含: {expected_error}\n实际: {actual_error}"
+        with allure.step("验证显示错误"):
+            # 可能是字段错误或登录错误
+            has_error = login_page.is_error_displayed()
+            has_field_error = bool(login_page.get_field_error("username")) or bool(
+                login_page.get_field_error("password")
             )
-
-    @allure.story("登录失败")
-    @allure.title("使用被锁定用户登录失败")
-    @allure.severity(allure.severity_level.NORMAL)
-    @pytest.mark.login
-    def test_login_with_locked_user(self, login_page: LoginPage):
-        """
-        测试使用被锁定用户登录（独立测试，验证完整错误消息）
-        """
-        expected_error = TestDataLoader.get_error_message("locked_user")
-
-        with allure.step("打开登录页面"):
-            login_page.open()
-
-        with allure.step("使用被锁定用户登录"):
-            login_page.login(settings.LOCKED_USER, settings.PASSWORD)
-
-        with allure.step("验证显示完整错误消息"):
-            assert login_page.is_error_displayed(), "未显示错误消息"
-            error_message = login_page.get_error_message()
-            assert error_message == expected_error, (
-                f"错误消息不完全匹配\n期望: {expected_error}\n实际: {error_message}"
-            )
-
-    @allure.story("关闭错误提示")
-    @allure.title("关闭登录错误提示")
-    @allure.severity(allure.severity_level.MINOR)
-    @pytest.mark.login
-    def test_close_error_message(self, login_page: LoginPage):
-        """
-        测试关闭错误提示
-
-        步骤:
-        1. 打开登录页面
-        2. 触发一个登录错误
-        3. 关闭错误提示
-        4. 验证错误提示已关闭
-        """
-        with allure.step("打开登录页面并触发错误"):
-            login_page.open()
-            login_page.click_login()  # 触发空用户名错误
-
-        with allure.step("验证错误消息显示"):
-            assert login_page.is_error_displayed(), "未显示错误消息"
-
-        with allure.step("关闭错误提示"):
-            login_page.close_error()
-
-        with allure.step("验证错误提示已关闭"):
-            assert not login_page.is_error_displayed(), "错误消息未关闭"
+            assert has_error or has_field_error, "未显示任何错误消息"
 
 
 @allure.feature("登录功能")
-@allure.story("多用户登录")
-class TestMultiUserLogin:
-    """多用户登录测试类 - 数据驱动测试"""
+@allure.story("退出登录")
+class TestLogout:
+    """退出登录测试类"""
 
-    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("正常退出登录")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @pytest.mark.smoke
     @pytest.mark.login
-    @pytest.mark.parametrize(
-        "user_type",
-        ["standard_user", "problem_user", "performance_glitch_user"],
-        ids=["标准用户", "问题用户", "性能用户"],
-    )
-    def test_valid_users_can_login(self, login_page: LoginPage, user_type: str):
+    def test_logout(self, logged_in_dashboard: DashboardPage):
         """
-        数据驱动测试：验证有效用户可以登录
+        测试退出登录功能
+
+        步骤:
+        1. 以已登录状态进入仪表盘
+        2. 点击用户菜单
+        3. 点击退出登录
+        4. 验证返回登录页面
         """
-        user_data = TestDataLoader.get_user(user_type)
+        dashboard = logged_in_dashboard
 
-        allure.dynamic.title(f"验证用户登录：{user_data['description']}")
+        with allure.step("验证已登录状态"):
+            assert dashboard.is_on_dashboard() or "dashboard" in dashboard.get_current_url().lower()
 
-        with allure.step("打开登录页面"):
-            login_page.open()
+        with allure.step("执行退出登录"):
+            dashboard.logout()
 
-        with allure.step(f"使用 {user_type} 登录"):
-            login_page.login(user_data["username"], user_data["password"])
-
-        with allure.step("验证登录成功"):
-            assert login_page.is_logged_in(), f"{user_type} 登录失败"
+        with allure.step("验证返回登录页面"):
+            login_page = LoginPage(dashboard.page)
+            assert login_page.is_login_page(), "未返回登录页面"

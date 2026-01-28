@@ -1,81 +1,86 @@
 {
   "users": {
-    "standard_user": {
-      "username": "standard_user",
-      "password": "secret_sauce",
-      "description": "标准用户，可正常登录"
-    },
-    "locked_out_user": {
-      "username": "locked_out_user",
-      "password": "secret_sauce",
-      "description": "被锁定用户，无法登录"
-    },
-    "problem_user": {
-      "username": "problem_user",
-      "password": "secret_sauce",
-      "description": "问题用户，部分功能异常"
-    },
-    "performance_glitch_user": {
-      "username": "performance_glitch_user",
-      "password": "secret_sauce",
-      "description": "性能问题用户，响应较慢"
-    },
-    "error_user": {
-      "username": "error_user",
-      "password": "secret_sauce",
-      "description": "错误用户，会触发错误"
-    },
-    "visual_user": {
-      "username": "visual_user",
-      "password": "secret_sauce",
-      "description": "视觉用户，界面有差异"
+    "admin": {
+      "username": "Admin",
+      "password": "admin123",
+      "description": "系统管理员，拥有全部权限"
     }
   },
-  "checkout_info": {
-    "valid": {
+  "employees": {
+    "new_employee": {
       "first_name": "Test",
-      "last_name": "User",
-      "postal_code": "12345"
+      "middle_name": "Auto",
+      "last_name": "Employee",
+      "employee_id": "",
+      "description": "自动化测试创建的员工"
     },
-    "empty": {
-      "first_name": "",
-      "last_name": "",
-      "postal_code": ""
+    "edit_employee": {
+      "first_name": "Updated",
+      "middle_name": "Edit",
+      "last_name": "Employee",
+      "description": "编辑后的员工信息"
+    },
+    "search_employee": {
+      "employee_name": "Test Auto Employee",
+      "description": "用于搜索测试的员工"
     }
   },
-  "products": [
-    {
-      "name": "Sauce Labs Backpack",
-      "price": "$29.99"
-    },
-    {
-      "name": "Sauce Labs Bike Light",
-      "price": "$9.99"
-    },
-    {
-      "name": "Sauce Labs Bolt T-Shirt",
-      "price": "$15.99"
-    },
-    {
-      "name": "Sauce Labs Fleece Jacket",
-      "price": "$49.99"
-    },
-    {
-      "name": "Sauce Labs Onesie",
-      "price": "$7.99"
-    },
-    {
-      "name": "Test.allTheThings() T-Shirt (Red)",
-      "price": "$15.99"
+  "personal_details": {
+    "valid": {
+      "nickname": "Tester",
+      "driver_license_number": "DL123456",
+      "license_expiry_date": "2030-12-31",
+      "nationality": "American",
+      "marital_status": "Single",
+      "date_of_birth": "1990-01-15",
+      "gender": "Male"
     }
-  ],
+  },
+  "contact_details": {
+    "valid": {
+      "street1": "123 Test Street",
+      "street2": "Suite 100",
+      "city": "Test City",
+      "state": "California",
+      "zip": "90210",
+      "country": "United States",
+      "home_phone": "555-0100",
+      "mobile": "555-0101",
+      "work_phone": "555-0102",
+      "work_email": "test@orangehrm.com",
+      "other_email": "test.other@email.com"
+    }
+  },
+  "job_details": {
+    "valid": {
+      "joined_date": "2024-01-01",
+      "job_title": "QA Engineer",
+      "job_category": "Technicians",
+      "sub_unit": "Quality Assurance",
+      "location": "New York Sales Office",
+      "employment_status": "Full-Time Permanent"
+    }
+  },
   "error_messages": {
-    "locked_user": "Epic sadface: Sorry, this user has been locked out.",
-    "invalid_credentials": "Epic sadface: Username and password do not match any user in this service",
-    "empty_username": "Epic sadface: Username is required",
-    "empty_password": "Epic sadface: Password is required",
-    "empty_first_name": "Error: First Name is required",
-    "empty_last_name": "Error: Last Name is required",
-    "empty_postal_code": "Error: Postal Code is required"
+    "required_field": "Required",
+    "invalid_credentials": "Invalid credentials",
+    "empty_username": "Required",
+    "empty_password": "Required",
+    "already_exists": "Already exists",
+    "employee_not_found": "No Records Found"
+  },
+  "menu_items": {
+    "admin": "Admin",
+    "pim": "PIM",
+    "leave": "Leave",
+    "time": "Time",
+    "recruitment": "Recruitment",
+    "my_info": "My Info",
+    "performance": "Performance",
+    "dashboard": "Dashboard",
+    "directory": "Directory",
+    "maintenance": "Maintenance",
+    "claim": "Claim",
+    "buzz": "Buzz"
   }
 }

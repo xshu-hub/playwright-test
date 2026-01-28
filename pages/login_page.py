@@ -1,6 +1,6 @@
 """
-LoginPage - 登录页面对象
-封装 saucedemo.com 登录页面的元素和操作
+LoginPage - OrangeHRM 登录页面对象
+封装 OrangeHRM 登录页面的元素和操作
 """
 
 import allure
@@ -11,18 +11,24 @@ from pages.base_page import BasePage
 
 
 class LoginPage(BasePage):
-    """登录页面对象"""
+    """OrangeHRM 登录页面对象"""
 
     # 页面名称
     page_name = "LoginPage"
 
     # 页面元素定位器
-    USERNAME_INPUT = "#user-name"
-    PASSWORD_INPUT = "#password"
-    LOGIN_BUTTON = "#login-button"
-    ERROR_MESSAGE = "[data-test='error']"
-    ERROR_BUTTON = ".error-button"
-    LOGO = ".login_logo"
+    USERNAME_INPUT = "input[name='username']"
+    PASSWORD_INPUT = "input[name='password']"
+    LOGIN_BUTTON = "button[type='submit']"
+    ERROR_MESSAGE = ".oxd-alert-content-text"
+    ERROR_ICON = ".oxd-input-field-error-message"
+    LOGO = ".orangehrm-login-logo"
+    FORGOT_PASSWORD_LINK = ".orangehrm-login-forgot-header"
+    LOGIN_TITLE = ".orangehrm-login-title"
+
+    # 登录后的元素（用于验证登录成功）
+    DASHBOARD_HEADER = ".oxd-topbar-header-title"
+    USER_DROPDOWN = ".oxd-userdropdown"
 
     def __init__(self, page: Page):
         """
@@ -32,7 +38,7 @@ class LoginPage(BasePage):
             page: Playwright 页面实例
         """
         super().__init__(page)
-        self.url = settings.BASE_URL
+        self.url = f"{settings.BASE_URL}/web/index.php/auth/login"
 
     @allure.step("打开登录页面")
     def open(self) -> "LoginPage":
@@ -43,6 +49,7 @@ class LoginPage(BasePage):
             self，支持链式调用
         """
         self.navigate(self.url)
+        self.wait_for_visible(self.LOGIN_BUTTON)
         return self
 
     @allure.step("输入用户名: {username}")
@@ -101,15 +108,15 @@ class LoginPage(BasePage):
         self.click_login()
         return self
 
-    @allure.step("使用标准用户登录")
-    def login_as_standard_user(self) -> "LoginPage":
+    @allure.step("使用管理员账号登录")
+    def login_as_admin(self) -> "LoginPage":
         """
-        使用标准用户登录
+        使用管理员账号登录
 
         Returns:
             self，支持链式调用
         """
-        return self.login(settings.STANDARD_USER, settings.PASSWORD)
+        return self.login(settings.ADMIN_USER, settings.ADMIN_PASSWORD)
 
     def get_error_message(self) -> str:
         """
@@ -118,8 +125,28 @@ class LoginPage(BasePage):
         Returns:
             错误消息文本
         """
+        # 首先检查 alert 类型的错误消息
         if self.is_visible(self.ERROR_MESSAGE, timeout=3000):
             return self.get_text(self.ERROR_MESSAGE)
+        # 然后检查输入框下的错误消息
+        if self.is_visible(self.ERROR_ICON, timeout=1000):
+            return self.get_text(self.ERROR_ICON)
+        return ""
+
+    def get_field_error(self, field_name: str = "username") -> str:
+        """
+        获取特定字段的错误消息
+
+        Args:
+            field_name: 字段名称 ('username' 或 'password')
+
+        Returns:
+            错误消息文本
+        """
+        # OrangeHRM 的字段错误在输入框旁边
+        error_selector = f".oxd-input-group:has(input[name='{field_name}']) .oxd-input-field-error-message"
+        if self.is_visible(error_selector, timeout=2000):
+            return self.get_text(error_selector)
         return ""
 
     def is_error_displayed(self) -> bool:
@@ -129,19 +156,10 @@ class LoginPage(BasePage):
         Returns:
             是否显示错误消息
         """
-        return self.is_visible(self.ERROR_MESSAGE, timeout=3000)
-
-    @allure.step("关闭错误提示")
-    def close_error(self) -> "LoginPage":
-        """
-        关闭错误提示
-
-        Returns:
-            self，支持链式调用
-        """
-        if self.is_visible(self.ERROR_BUTTON, timeout=2000):
-            self.click(self.ERROR_BUTTON)
-        return self
+        return (
+            self.is_visible(self.ERROR_MESSAGE, timeout=3000)
+            or self.is_visible(self.ERROR_ICON, timeout=1000)
+        )
 
     def is_login_page(self) -> bool:
         """
@@ -154,9 +172,19 @@ class LoginPage(BasePage):
 
     def is_logged_in(self) -> bool:
         """
-        检查是否登录成功（通过 URL 判断）
+        检查是否登录成功（通过检测仪表盘元素）
 
         Returns:
             是否登录成功
         """
-        return "inventory" in self.get_current_url()
+        return self.is_visible(self.USER_DROPDOWN, timeout=10000)
+
+    def wait_for_login_complete(self) -> "LoginPage":
+        """
+        等待登录完成
+
+        Returns:
+            self，支持链式调用
+        """
+        self.wait_for_visible(self.USER_DROPDOWN, timeout=15000)
+        return self

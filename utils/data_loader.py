@@ -1,6 +1,7 @@
 """
 测试数据加载工具模块
 从 test_data.json 加载测试数据，支持数据驱动测试
+针对 OrangeHRM 人力资源管理系统
 """
 
 import json
@@ -30,12 +31,12 @@ class TestDataLoader:
             return json.load(f)
 
     @classmethod
-    def get_user(cls, user_type: str) -> dict:
+    def get_user(cls, user_type: str = "admin") -> dict:
         """
         获取用户信息
 
         Args:
-            user_type: 用户类型，如 'standard_user', 'locked_out_user' 等
+            user_type: 用户类型，默认为 'admin'
 
         Returns:
             包含 username, password, description 的字典
@@ -60,53 +61,71 @@ class TestDataLoader:
         return data["users"]
 
     @classmethod
-    def get_checkout_info(cls, info_type: str = "valid") -> dict:
+    def get_employee(cls, employee_type: str = "new_employee") -> dict:
         """
-        获取结账信息
+        获取员工信息
 
         Args:
-            info_type: 信息类型，'valid' 或 'empty'
+            employee_type: 员工类型，如 'new_employee', 'edit_employee' 等
 
         Returns:
-            包含 first_name, last_name, postal_code 的字典
+            员工信息字典
 
         Raises:
-            KeyError: 信息类型不存在
+            KeyError: 员工类型不存在
         """
         data = cls._load_data()
-        if info_type not in data["checkout_info"]:
-            raise KeyError(f"结账信息类型不存在: {info_type}")
-        return data["checkout_info"][info_type]
+        if employee_type not in data["employees"]:
+            raise KeyError(f"员工类型不存在: {employee_type}")
+        return data["employees"][employee_type]
 
     @classmethod
-    def get_products(cls) -> list[dict]:
+    def get_personal_details(cls, detail_type: str = "valid") -> dict:
         """
-        获取所有产品信息
-
-        Returns:
-            产品信息列表，每个产品包含 name 和 price
-        """
-        data = cls._load_data()
-        return data["products"]
-
-    @classmethod
-    def get_product_by_index(cls, index: int) -> dict:
-        """
-        按索引获取产品信息
+        获取个人详情信息
 
         Args:
-            index: 产品索引
+            detail_type: 详情类型
 
         Returns:
-            产品信息字典
-
-        Raises:
-            IndexError: 索引超出范围
+            个人详情字典
         """
-        products = cls.get_products()
-        if index >= len(products):
-            raise IndexError(f"产品索引超出范围: {index}，共 {len(products)} 个产品")
-        return products[index]
+        data = cls._load_data()
+        if detail_type not in data["personal_details"]:
+            raise KeyError(f"个人详情类型不存在: {detail_type}")
+        return data["personal_details"][detail_type]
+
+    @classmethod
+    def get_contact_details(cls, detail_type: str = "valid") -> dict:
+        """
+        获取联系方式信息
+
+        Args:
+            detail_type: 详情类型
+
+        Returns:
+            联系方式字典
+        """
+        data = cls._load_data()
+        if detail_type not in data["contact_details"]:
+            raise KeyError(f"联系方式类型不存在: {detail_type}")
+        return data["contact_details"][detail_type]
+
+    @classmethod
+    def get_job_details(cls, detail_type: str = "valid") -> dict:
+        """
+        获取工作信息
+
+        Args:
+            detail_type: 详情类型
+
+        Returns:
+            工作信息字典
+        """
+        data = cls._load_data()
+        if detail_type not in data["job_details"]:
+            raise KeyError(f"工作信息类型不存在: {detail_type}")
+        return data["job_details"][detail_type]
 
     @classmethod
     def get_error_message(cls, error_type: str) -> str:
@@ -114,7 +133,7 @@ class TestDataLoader:
         获取错误消息
 
         Args:
-            error_type: 错误类型，如 'locked_user', 'empty_username' 等
+            error_type: 错误类型
 
         Returns:
             错误消息字符串
@@ -139,6 +158,22 @@ class TestDataLoader:
         return data["error_messages"]
 
     @classmethod
+    def get_menu_item(cls, menu_name: str) -> str:
+        """
+        获取菜单项名称
+
+        Args:
+            menu_name: 菜单键名
+
+        Returns:
+            菜单显示名称
+        """
+        data = cls._load_data()
+        if menu_name not in data["menu_items"]:
+            raise KeyError(f"菜单项不存在: {menu_name}")
+        return data["menu_items"][menu_name]
+
+    @classmethod
     def get_login_failure_test_cases(cls) -> list[tuple]:
         """
         获取登录失败测试用例数据（用于参数化测试）
@@ -147,22 +182,17 @@ class TestDataLoader:
             测试用例列表，每个元素为 (username, password, error_key, description)
         """
         data = cls._load_data()
-        users = data["users"]
+        admin = data["users"]["admin"]
 
         test_cases = [
-            # 被锁定用户
-            (
-                users["locked_out_user"]["username"],
-                users["locked_out_user"]["password"],
-                "locked_user",
-                "被锁定用户登录",
-            ),
             # 空用户名
-            ("", users["standard_user"]["password"], "empty_username", "空用户名登录"),
+            ("", admin["password"], "empty_username", "空用户名登录"),
             # 空密码
-            (users["standard_user"]["username"], "", "empty_password", "空密码登录"),
+            (admin["username"], "", "empty_password", "空密码登录"),
             # 错误凭证
             ("invalid_user", "wrong_password", "invalid_credentials", "错误凭证登录"),
+            # 错误密码
+            (admin["username"], "wrong_password", "invalid_credentials", "错误密码登录"),
         ]
         return test_cases
 

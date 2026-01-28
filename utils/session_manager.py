@@ -1,6 +1,7 @@
 """
 Session 管理器
 支持多用户/多角色的 Session 管理，适用于审批流程等多角色测试场景
+针对 OrangeHRM 人力资源管理系统
 """
 
 from dataclasses import dataclass
@@ -10,7 +11,6 @@ from typing import Callable
 from playwright.sync_api import Browser, BrowserContext, Page
 
 from config.settings import settings
-from pages.login_page import LoginPage
 from utils.logger import logger
 
 
@@ -38,8 +38,7 @@ class SessionManager:
         session_manager = SessionManager(browser)
 
         # 获取用户的已认证页面
-        admin_page = session_manager.get_authenticated_page("admin_user", "password")
-        user_page = session_manager.get_authenticated_page("normal_user", "password")
+        admin_page = session_manager.get_authenticated_page("Admin", "admin123")
 
         # 多角色审批流程
         user_page.click("#submit-request")  # 用户提交申请
@@ -77,7 +76,7 @@ class SessionManager:
         """
         设置自定义登录函数
 
-        对于非 saucedemo.com 的项目，可以设置自定义登录逻辑
+        对于非默认项目，可以设置自定义登录逻辑
 
         Args:
             login_func: 登录函数，接收 (page, username, password) 参数
@@ -109,10 +108,13 @@ class SessionManager:
             # 使用自定义登录函数
             self._custom_login_func(page, username, password)
         else:
-            # 使用默认的 saucedemo 登录逻辑
+            # 使用 OrangeHRM 登录逻辑
+            from pages.login_page import LoginPage
+
             login_page = LoginPage(page)
             login_page.open().login(username, password)
-            page.wait_for_url("**/inventory.html", timeout=settings.TIMEOUT)
+            # 等待登录成功（跳转到仪表盘）
+            page.wait_for_url("**/dashboard/**", timeout=settings.TIMEOUT)
 
     def get_context_for_user(
         self,
@@ -136,7 +138,7 @@ class SessionManager:
         if username in self._contexts:
             return self._contexts[username]
 
-        password = password or settings.PASSWORD
+        password = password or settings.ADMIN_PASSWORD
         session_file = self._get_session_file(username)
         context_config = settings.get_context_config()
 
@@ -268,37 +270,12 @@ class SessionManager:
 
 # ==================== 预定义用户凭证 ====================
 
-# saucedemo.com 的预定义用户
+# OrangeHRM 的预定义用户
 PREDEFINED_USERS: dict[str, UserCredentials] = {
-    "standard": UserCredentials(
-        username=settings.STANDARD_USER,
-        password=settings.PASSWORD,
-        role="user",
-    ),
-    "locked": UserCredentials(
-        username=settings.LOCKED_USER,
-        password=settings.PASSWORD,
-        role="locked_user",
-    ),
-    "problem": UserCredentials(
-        username=settings.PROBLEM_USER,
-        password=settings.PASSWORD,
-        role="problem_user",
-    ),
-    "performance": UserCredentials(
-        username=settings.PERFORMANCE_USER,
-        password=settings.PASSWORD,
-        role="slow_user",
-    ),
-    "error": UserCredentials(
-        username=settings.ERROR_USER,
-        password=settings.PASSWORD,
-        role="error_user",
-    ),
-    "visual": UserCredentials(
-        username=settings.VISUAL_USER,
-        password=settings.PASSWORD,
-        role="visual_user",
+    "admin": UserCredentials(
+        username=settings.ADMIN_USER,
+        password=settings.ADMIN_PASSWORD,
+        role="admin",
     ),
 }
 
@@ -308,7 +285,7 @@ def get_user_credentials(user_key: str) -> UserCredentials:
     获取预定义用户的凭证
 
     Args:
-        user_key: 用户标识，如 "standard", "admin" 等
+        user_key: 用户标识，如 "admin" 等
 
     Returns:
         用户凭证
