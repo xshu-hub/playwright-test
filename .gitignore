@@ -23,6 +23,11 @@ reports/allure-report/
 test-results/
 playwright-report/
 
+# Session 文件（包含认证信息，不应提交）
+data/sessions/
+*_session.json
+auth_state.json
+
 # OS
 .DS_Store
 Thumbs.db

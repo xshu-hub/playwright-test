@@ -6,6 +6,7 @@
 
 - **Page Object 模式**：清晰的页面对象封装，提高代码复用性和可维护性
 - **多浏览器支持**：支持 Chromium、Firefox、WebKit 三大浏览器
+- **Session 复用**：保存登录状态，跳过重复登录，显著加速测试执行
 - **数据驱动测试**：支持 JSON 数据文件驱动的参数化测试
 - **Allure 报告**：美观详细的测试报告，支持截图和步骤记录
 - **失败自动重试**：测试失败自动重试机制，提高测试稳定性
@@ -35,7 +36,8 @@ playwright-test/
 │   ├── data_loader.py     # 测试数据加载器
 │   └── logger.py          # 日志工具
 ├── data/                  # 测试数据
-│   └── test_data.json     # 测试数据文件
+│   ├── test_data.json     # 测试数据文件
+│   └── sessions/          # Session 状态文件目录（自动生成）
 ├── reports/               # 测试报告输出目录
 ├── logs/                  # 日志文件目录（自动生成）
 ├── .env.example           # 环境变量示例
@@ -104,6 +106,10 @@ pytest -n 4              # 指定 4 个进程
 # 跳过失败重试
 pytest --reruns 0
 
+# Session 复用（加速需要登录的测试）
+pytest --save-session      # 首次运行：保存登录状态
+pytest --reuse-session     # 后续运行：复用已保存的登录状态
+
 # 运行单个测试文件
 pytest tests/test_login.py
 
@@ -137,6 +143,8 @@ allure open reports/allure-report
 | `VIEWPORT_WIDTH` | 浏览器视口宽度 | 1920 |
 | `VIEWPORT_HEIGHT` | 浏览器视口高度 | 1080 |
 | `SCREENSHOT_ON_FAILURE` | 失败时自动截图 | true |
+| `REUSE_SESSION` | 是否复用已保存的 Session | false |
+| `SESSION_FILE` | Session 文件名 | auth_state.json |
 | `LOG_LEVEL` | 控制台日志级别 | INFO |
 | `FILE_LOG_LEVEL` | 文件日志级别 | DEBUG |
 
@@ -244,6 +252,120 @@ def test_users_can_login(self, login_page, user_type: str):
     assert login_page.is_logged_in()
 ```
 
+### 使用 Session 复用
+
+Session 复用可以显著加速需要登录的测试，避免每次测试都执行登录流程。
+
+```python
+class TestWithSessionReuse:
+    """使用 Session 复用的测试类"""
+    
+    def test_inventory_with_session(self, auth_inventory_page):
+        """使用 auth_inventory_page fixture（支持 Session 复用）"""
+        # 如果启用了 --reuse-session，会跳过登录直接进入商品页
+        assert auth_inventory_page.get_product_count() > 0
+    
+    def test_cart_with_session(self, auth_cart_page):
+        """使用 auth_cart_page fixture（支持 Session 复用）"""
+        # 如果启用了 --reuse-session，会跳过登录直接进入购物车
+        assert auth_cart_page.is_cart_page()
+```
+
+**使用步骤：**
+
+```bash
+# 步骤 1：首次运行，保存登录状态
+pytest tests/test_cart.py --save-session
+
+# 步骤 2：后续运行，复用已保存的登录状态（显著加速）
+pytest tests/test_cart.py --reuse-session
+
+# 或者通过环境变量启用
+REUSE_SESSION=true pytest tests/test_cart.py
+```
+
+**注意事项：**
+- Session 文件保存在 `data/sessions/` 目录
+- Session 文件包含敏感的认证信息，已添加到 `.gitignore`
+- 如果 Session 过期或失效，删除 `data/sessions/` 目录后重新运行 `--save-session`
+
+### 多角色/多用户测试
+
+对于需要多个用户角色参与的测试场景（如审批流程、消息传递等），可以使用 `session_manager` 或 `user_page_factory` fixture。
+
+#### 使用 SessionManager（推荐）
+
+```python
+class TestApprovalWorkflow:
+    """多角色审批流程测试"""
+    
+    def test_submit_and_approve(self, session_manager):
+        """用户提交申请 -> 管理员审批 -> 用户查看结果"""
+        # 用户提交申请
+        user_page = session_manager.get_authenticated_page(
+            username="standard_user",
+            password="secret_sauce",
+            start_url="https://www.saucedemo.com/inventory.html"
+        )
+        user_page.click("[data-test='add-to-cart-sauce-labs-backpack']")
+        
+        # 切换到另一个用户（模拟管理员）
+        admin_page = session_manager.get_authenticated_page(
+            username="problem_user",
+            password="secret_sauce",
+            start_url="https://www.saucedemo.com/inventory.html"
+        )
+        # 管理员执行操作...
+        
+        # 返回原用户查看结果
+        user_page.goto("https://www.saucedemo.com/cart.html")
+        assert user_page.locator(".cart_item").count() == 1
+```
+
+#### 使用 user_page_factory
+
+```python
+class TestMultiUserInteraction:
+    """多用户交互测试"""
+    
+    def test_user_interaction(self, user_page_factory):
+        """使用工厂函数创建多个用户的页面"""
+        # 动态创建用户页面
+        user1_page = user_page_factory("standard_user", "secret_sauce")
+        user2_page = user_page_factory("visual_user", "secret_sauce")
+        
+        # 用户1添加商品
+        user1_page.goto("https://www.saucedemo.com/inventory.html")
+        user1_page.click("[data-test='add-to-cart-sauce-labs-backpack']")
+        
+        # 用户2独立操作（不受用户1影响）
+        user2_page.goto("https://www.saucedemo.com/inventory.html")
+        assert user2_page.locator(".shopping_cart_badge").count() == 0
+```
+
+#### 自定义登录逻辑
+
+对于非 saucedemo.com 的项目，可以自定义登录逻辑：
+
+```python
+def test_with_custom_login(self, session_manager):
+    """使用自定义登录函数"""
+    
+    def my_login(page, username, password):
+        page.goto("https://my-app.com/login")
+        page.fill("#username", username)
+        page.fill("#password", password)
+        page.click("#login-btn")
+        page.wait_for_url("**/dashboard")
+    
+    # 设置自定义登录函数
+    session_manager.set_custom_login(my_login)
+    
+    # 获取不同角色的页面
+    admin_page = session_manager.get_authenticated_page("admin", "admin123")
+    user_page = session_manager.get_authenticated_page("user", "user123")
+```
+
 ## 代码质量
 
 项目使用 Ruff 进行代码质量检查和格式化：
@@ -292,6 +414,13 @@ ruff format --check .
 | `cart_page` | function | 购物车页面对象 |
 | `logged_in_page` | function | 已登录的页面实例 |
 | `logged_in_inventory_page` | function | 已登录的商品列表页面 |
+| `auth_state` | session | Session 状态文件路径 |
+| `auth_context` | function | 已认证的浏览器上下文（支持 Session 复用） |
+| `auth_page` | function | 已认证的页面实例（支持 Session 复用） |
+| `auth_inventory_page` | function | 已认证的商品列表页面（支持 Session 复用） |
+| `auth_cart_page` | function | 已认证的购物车页面（支持 Session 复用） |
+| `session_manager` | function | 多用户 Session 管理器（支持多角色测试） |
+| `user_page_factory` | function | 用户页面工厂函数（动态创建多用户页面） |
 
 ## 常见问题
 
