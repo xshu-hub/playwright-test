@@ -144,7 +144,9 @@ class LoginPage(BasePage):
             错误消息文本
         """
         # OrangeHRM 的字段错误在输入框旁边
-        error_selector = f".oxd-input-group:has(input[name='{field_name}']) .oxd-input-field-error-message"
+        error_selector = (
+            f".oxd-input-group:has(input[name='{field_name}']) .oxd-input-field-error-message"
+        )
         if self.is_visible(error_selector, timeout=2000):
             return self.get_text(error_selector)
         return ""
@@ -156,9 +158,8 @@ class LoginPage(BasePage):
         Returns:
             是否显示错误消息
         """
-        return (
-            self.is_visible(self.ERROR_MESSAGE, timeout=3000)
-            or self.is_visible(self.ERROR_ICON, timeout=1000)
+        return self.is_visible(self.ERROR_MESSAGE, timeout=3000) or self.is_visible(
+            self.ERROR_ICON, timeout=1000
         )
 
     def is_login_page(self) -> bool:

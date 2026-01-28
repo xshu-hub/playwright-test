@@ -92,7 +92,10 @@ class DashboardPage(BasePage):
         Returns:
             是否在仪表盘页面
         """
-        return self.is_visible(self.DASHBOARD_GRID, timeout=5000) or "dashboard" in self.get_current_url()
+        return (
+            self.is_visible(self.DASHBOARD_GRID, timeout=5000)
+            or "dashboard" in self.get_current_url()
+        )
 
     # ==================== 导航方法 ====================
 

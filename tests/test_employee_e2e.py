@@ -56,7 +56,9 @@ class TestCreateEmployee:
 
         with allure.step("验证保存成功"):
             # 保存成功后会跳转到员工详情页面
-            assert form.is_success_toast_displayed() or "viewPersonalDetails" in form.get_current_url()
+            assert (
+                form.is_success_toast_displayed() or "viewPersonalDetails" in form.get_current_url()
+            )
 
 
 @allure.feature("员工管理")
@@ -152,7 +154,10 @@ class TestEditEmployee:
 
         with allure.step("验证进入编辑页面"):
             # 编辑页面 URL 包含 viewPersonalDetails
-            assert "viewPersonalDetails" in pim.get_current_url() or "empNumber" in pim.get_current_url()
+            assert (
+                "viewPersonalDetails" in pim.get_current_url()
+                or "empNumber" in pim.get_current_url()
+            )
 
 
 @allure.feature("员工管理")
@@ -180,7 +185,11 @@ class TestDeleteEmployee:
             if pim.has_no_records():
                 pytest.skip("没有员工记录")
             initial_count = pim.get_employee_count()
-            allure.attach(f"初始员工数量: {initial_count}", name="初始状态", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(
+                f"初始员工数量: {initial_count}",
+                name="初始状态",
+                attachment_type=allure.attachment_type.TEXT,
+            )
 
         with allure.step("点击删除按钮"):
             pim.click_delete_on_row(0)
@@ -203,7 +212,11 @@ class TestDeleteEmployee:
                     if cancel_btn.is_visible():
                         cancel_btn.click()
                         cancel_clicked = True
-                        allure.attach(f"使用选择器: {selector}", name="取消按钮选择器", attachment_type=allure.attachment_type.TEXT)
+                        allure.attach(
+                            f"使用选择器: {selector}",
+                            name="取消按钮选择器",
+                            attachment_type=allure.attachment_type.TEXT,
+                        )
                         break
                 except Exception as e:
                     continue
@@ -211,15 +224,25 @@ class TestDeleteEmployee:
             if not cancel_clicked:
                 # 最后尝试按 Escape 键关闭对话框
                 pim.page.keyboard.press("Escape")
-                allure.attach("使用 Escape 键关闭对话框", name="取消方式", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    "使用 Escape 键关闭对话框",
+                    name="取消方式",
+                    attachment_type=allure.attachment_type.TEXT,
+                )
 
             pim.page.wait_for_timeout(1000)
 
         with allure.step("验证员工未被删除"):
             pim.page.wait_for_timeout(1500)
             current_count = pim.get_employee_count()
-            allure.attach(f"当前员工数量: {current_count}", name="当前状态", attachment_type=allure.attachment_type.TEXT)
-            assert current_count == initial_count, f"员工被意外删除，初始: {initial_count}, 当前: {current_count}"
+            allure.attach(
+                f"当前员工数量: {current_count}",
+                name="当前状态",
+                attachment_type=allure.attachment_type.TEXT,
+            )
+            assert current_count == initial_count, (
+                f"员工被意外删除，初始: {initial_count}, 当前: {current_count}"
+            )
 
 
 @allure.feature("员工管理")
@@ -264,7 +287,9 @@ class TestEmployeeE2E:
 
             # 获取员工 ID
             employee_id = form.get_generated_employee_id()
-            allure.attach(employee_id, name="新员工 ID", attachment_type=allure.attachment_type.TEXT)
+            allure.attach(
+                employee_id, name="新员工 ID", attachment_type=allure.attachment_type.TEXT
+            )
             allure.attach(full_name, name="员工姓名", attachment_type=allure.attachment_type.TEXT)
 
             form.click_save()
@@ -274,10 +299,9 @@ class TestEmployeeE2E:
 
             # 验证保存成功（跳转到详情页或显示成功消息）
             current_url = form.get_current_url()
-            assert (
-                "viewPersonalDetails" in current_url
-                or form.is_success_toast_displayed()
-            ), "创建员工失败"
+            assert "viewPersonalDetails" in current_url or form.is_success_toast_displayed(), (
+                "创建员工失败"
+            )
 
         # ==================== 第 2 步：搜索验证 ====================
         with allure.step("步骤 2: 搜索验证员工存在"):
@@ -338,9 +362,17 @@ class TestEmployeeE2E:
                 # 验证保存成功
                 form.page.wait_for_timeout(2000)
                 success = form.is_success_toast_displayed()
-                allure.attach(f"保存状态: {success}", name="编辑结果", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    f"保存状态: {success}",
+                    name="编辑结果",
+                    attachment_type=allure.attachment_type.TEXT,
+                )
             else:
-                allure.attach("无法找到姓名输入框", name="编辑警告", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    "无法找到姓名输入框",
+                    name="编辑警告",
+                    attachment_type=allure.attachment_type.TEXT,
+                )
 
         # ==================== 第 4 步：再次验证修改 ====================
         with allure.step("步骤 4: 验证修改已保存"):
@@ -355,9 +387,9 @@ class TestEmployeeE2E:
 
             # 验证名字已更新
             employee_info = pim.get_employee_data_from_row(0)
-            assert new_first_name.lower() in employee_info.get(
-                "first_middle_name", ""
-            ).lower(), "员工姓名未更新"
+            assert new_first_name.lower() in employee_info.get("first_middle_name", "").lower(), (
+                "员工姓名未更新"
+            )
 
         # ==================== 第 5 步：删除员工 ====================
         with allure.step("步骤 5: 删除员工"):
@@ -372,11 +404,11 @@ class TestEmployeeE2E:
             # 刷新页面确保获取最新数据
             pim.open()
             pim.wait_for_page_load()
-            
+
             # 重新搜索
             pim.search_by_employee_id(employee_id)
             pim.click_search()
-            
+
             # 等待搜索结果
             pim.page.wait_for_timeout(2000)
 
@@ -453,7 +485,7 @@ class TestEmployeeE2E:
             # 刷新页面确保获取最新数据
             pim.open()
             pim.wait_for_page_load()
-            
+
             for emp in created_employees:
                 pim.search_by_employee_id(emp["id"])
                 pim.click_search()

@@ -187,9 +187,7 @@ class PIMPage(BasePage):
             self，支持链式调用
         """
         # 查找员工姓名输入框（第一个输入框）
-        name_input = self.page.locator(
-            ".oxd-table-filter .oxd-grid-item:first-child input"
-        )
+        name_input = self.page.locator(".oxd-table-filter .oxd-grid-item:first-child input")
         name_input.fill(name)
 
         # 等待自动完成选项出现并选择
@@ -214,9 +212,7 @@ class PIMPage(BasePage):
             self，支持链式调用
         """
         # 员工 ID 输入框是第二个
-        id_input = self.page.locator(
-            ".oxd-table-filter .oxd-grid-item:nth-child(2) input"
-        )
+        id_input = self.page.locator(".oxd-table-filter .oxd-grid-item:nth-child(2) input")
         id_input.fill(employee_id)
         return self
 
@@ -257,6 +253,7 @@ class PIMPage(BasePage):
         # 解析 "(X) Records Found" 格式
         if "Records Found" in count_text:
             import re
+
             match = re.search(r"\((\d+)\)", count_text)
             if match:
                 return int(match.group(1))
@@ -322,12 +319,12 @@ class PIMPage(BasePage):
         """
         # 等待页面稳定
         self.page.wait_for_timeout(500)
-        
+
         # 方法1: 检查表格行数是否为0
         rows = self.page.locator(self.TABLE_ROW).all()
         if len(rows) == 0:
             return True
-        
+
         # 方法2: 检查 "No Records Found" 文本
         # 使用更精确的选择器
         no_records_selectors = [
@@ -335,7 +332,7 @@ class PIMPage(BasePage):
             ".oxd-table-body .oxd-text--span:has-text('No Records')",
             "text=No Records Found",
         ]
-        
+
         for selector in no_records_selectors:
             try:
                 locator = self.page.locator(selector)
@@ -343,7 +340,7 @@ class PIMPage(BasePage):
                     return True
             except Exception:
                 continue
-        
+
         # 方法3: 检查记录数
         try:
             count = self.get_employee_count()
@@ -351,7 +348,7 @@ class PIMPage(BasePage):
                 return True
         except Exception:
             pass
-        
+
         return False
 
     # ==================== 编辑和删除操作 ====================
@@ -406,7 +403,7 @@ class PIMPage(BasePage):
             ".orangehrm-dialog-popup",
             "div[role='dialog']",
         ]
-        
+
         dialog_visible = False
         for selector in dialog_selectors:
             try:
@@ -416,7 +413,7 @@ class PIMPage(BasePage):
                 break
             except Exception:
                 continue
-        
+
         if not dialog_visible:
             # 如果对话框没出现，可能已经点击了，等待一下
             self.page.wait_for_timeout(1000)
@@ -447,10 +444,10 @@ class PIMPage(BasePage):
                 self.page.locator("button.oxd-button--label-danger").first.click()
             except Exception:
                 pass
-        
+
         # 等待删除操作完成
         self.page.wait_for_timeout(1500)
-        
+
         # 等待对话框消失
         for selector in dialog_selectors:
             try:
@@ -458,13 +455,13 @@ class PIMPage(BasePage):
                 break
             except Exception:
                 continue
-        
+
         # 等待可能的 Toast 消息
         try:
             self.is_visible(self.TOAST_MESSAGE, timeout=3000)
         except Exception:
             pass
-        
+
         self.wait_for_table_update()
         return self
 

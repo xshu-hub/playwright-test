@@ -132,8 +132,7 @@ class TestFormElements:
         with allure.step("验证保存成功"):
             form.page.wait_for_timeout(2000)
             success = (
-                form.is_success_toast_displayed()
-                or "viewPersonalDetails" in form.get_current_url()
+                form.is_success_toast_displayed() or "viewPersonalDetails" in form.get_current_url()
             )
             assert success, "创建员工失败"
 
@@ -183,7 +182,10 @@ class TestFormTabs:
             form.go_to_contact_details()
             form.page.wait_for_timeout(1000)
             # 验证页面切换
-            assert form.is_visible(form.INPUT_STREET1, timeout=5000) or "contactDetails" in form.get_current_url()
+            assert (
+                form.is_visible(form.INPUT_STREET1, timeout=5000)
+                or "contactDetails" in form.get_current_url()
+            )
 
         with allure.step("切换到工作信息 Tab"):
             form.go_to_job_details()
@@ -287,9 +289,13 @@ class TestDropdowns:
                 save_btn.click()
                 form.page.wait_for_timeout(2000)
 
-                allure.attach("国籍选择测试完成", name="结果", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    "国籍选择测试完成", name="结果", attachment_type=allure.attachment_type.TEXT
+                )
             else:
-                allure.attach("国籍下拉框不可见", name="结果", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    "国籍下拉框不可见", name="结果", attachment_type=allure.attachment_type.TEXT
+                )
 
 
 @allure.feature("复杂表单")
@@ -343,7 +349,9 @@ class TestDatePicker:
                     attachment_type=allure.attachment_type.TEXT,
                 )
             else:
-                allure.attach("出生日期输入框不可见", name="结果", attachment_type=allure.attachment_type.TEXT)
+                allure.attach(
+                    "出生日期输入框不可见", name="结果", attachment_type=allure.attachment_type.TEXT
+                )
 
 
 @allure.feature("复杂表单")
@@ -395,8 +403,7 @@ class TestLoginDetails:
 
         with allure.step("验证保存成功"):
             success = (
-                form.is_success_toast_displayed()
-                or "viewPersonalDetails" in form.get_current_url()
+                form.is_success_toast_displayed() or "viewPersonalDetails" in form.get_current_url()
             )
 
             allure.attach(

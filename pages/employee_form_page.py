@@ -29,7 +29,9 @@ class EmployeeFormPage(BasePage):
     LOGIN_DETAILS_SECTION = ".orangehrm-employee-form"
     INPUT_USERNAME = ".orangehrm-employee-form .oxd-grid-item:has-text('Username') input.oxd-input"
     INPUT_PASSWORD = ".orangehrm-employee-form .oxd-grid-item:has-text('Password') input.oxd-input"
-    INPUT_CONFIRM_PASSWORD = ".orangehrm-employee-form .oxd-grid-item:has-text('Confirm Password') input.oxd-input"
+    INPUT_CONFIRM_PASSWORD = (
+        ".orangehrm-employee-form .oxd-grid-item:has-text('Confirm Password') input.oxd-input"
+    )
     RADIO_ENABLED = ".orangehrm-employee-form label:has-text('Enabled')"
     RADIO_DISABLED = ".orangehrm-employee-form label:has-text('Disabled')"
 
@@ -66,16 +68,24 @@ class EmployeeFormPage(BasePage):
     INPUT_NICKNAME = ".oxd-form-row .oxd-grid-item:has-text('Nickname') input.oxd-input"
     INPUT_OTHER_ID = ".oxd-form-row .oxd-grid-item:has-text('Other Id') input.oxd-input"
     INPUT_DRIVER_LICENSE = ".oxd-form-row .oxd-grid-item:has-text('License Number') input.oxd-input"
-    INPUT_LICENSE_EXPIRY = ".oxd-form-row .oxd-grid-item:has-text('License Expiry Date') input.oxd-input"
+    INPUT_LICENSE_EXPIRY = (
+        ".oxd-form-row .oxd-grid-item:has-text('License Expiry Date') input.oxd-input"
+    )
     INPUT_SSN = ".oxd-form-row .oxd-grid-item:has-text('SSN Number') input.oxd-input"
     INPUT_SIN = ".oxd-form-row .oxd-grid-item:has-text('SIN Number') input.oxd-input"
 
     # 下拉选择器（使用更精确的选择器，定位到具体的表单区域）
-    SELECT_NATIONALITY = ".orangehrm-card-container .oxd-grid-item:has-text('Nationality') .oxd-select-text"
-    SELECT_MARITAL_STATUS = ".orangehrm-card-container .oxd-grid-item:has-text('Marital Status') .oxd-select-text"
+    SELECT_NATIONALITY = (
+        ".orangehrm-card-container .oxd-grid-item:has-text('Nationality') .oxd-select-text"
+    )
+    SELECT_MARITAL_STATUS = (
+        ".orangehrm-card-container .oxd-grid-item:has-text('Marital Status') .oxd-select-text"
+    )
 
     # 日期选择（使用更精确的选择器）
-    INPUT_DATE_OF_BIRTH = ".orangehrm-card-container .oxd-grid-item:has-text('Date of Birth') input.oxd-input"
+    INPUT_DATE_OF_BIRTH = (
+        ".orangehrm-card-container .oxd-grid-item:has-text('Date of Birth') input.oxd-input"
+    )
 
     # 性别单选按钮
     RADIO_MALE = "input[type='radio'][value='1']"
@@ -373,9 +383,7 @@ class EmployeeFormPage(BasePage):
         return self
 
     @allure.step("填写驾照号码: {license_number}")
-    def fill_driver_license(
-        self, license_number: str, expiry_date: str = ""
-    ) -> "EmployeeFormPage":
+    def fill_driver_license(self, license_number: str, expiry_date: str = "") -> "EmployeeFormPage":
         """
         填写驾照信息
 
@@ -393,7 +401,9 @@ class EmployeeFormPage(BasePage):
 
     # ==================== 下拉选择器操作 ====================
 
-    def select_dropdown_option(self, dropdown_selector: str, option_text: str) -> "EmployeeFormPage":
+    def select_dropdown_option(
+        self, dropdown_selector: str, option_text: str
+    ) -> "EmployeeFormPage":
         """
         选择下拉选项
 
@@ -413,12 +423,16 @@ class EmployeeFormPage(BasePage):
         self.page.locator(".oxd-select-dropdown").wait_for(state="visible", timeout=5000)
 
         # 选择选项 - 使用更精确的选择器
-        option = self.page.locator(f".oxd-select-dropdown .oxd-select-option span:text-is('{option_text}')").first
+        option = self.page.locator(
+            f".oxd-select-dropdown .oxd-select-option span:text-is('{option_text}')"
+        ).first
         if option.is_visible():
             option.click()
         else:
             # 尝试部分匹配
-            option_partial = self.page.locator(f".oxd-select-option:has-text('{option_text}')").first
+            option_partial = self.page.locator(
+                f".oxd-select-option:has-text('{option_text}')"
+            ).first
             option_partial.click()
 
         self.page.wait_for_timeout(300)
