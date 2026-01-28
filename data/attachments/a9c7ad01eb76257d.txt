@@ -1,0 +1,8 @@
+2026-01-28 16:08:13 [INFO] [LoginPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+2026-01-28 16:08:15 [INFO] [LoginPage] 元素已可见: button[type='submit']
+2026-01-28 16:08:15 [INFO] [LoginPage] 输入成功: input[name='username']
+2026-01-28 16:08:15 [INFO] [LoginPage] 输入成功: input[name='password']
+2026-01-28 16:08:17 [INFO] [LoginPage] 点击成功: button[type='submit']
+2026-01-28 16:08:18 [INFO] [LoginPage] 元素已可见: .oxd-userdropdown
+2026-01-28 16:08:18 [INFO] [PIMPage] 导航到: https://opensource-demo.orangehrmlive.com/web/index.php/pim/viewEmployeeList
+2026-01-28 16:08:20 [INFO] [PIMPage] 元素已可见: .oxd-table
