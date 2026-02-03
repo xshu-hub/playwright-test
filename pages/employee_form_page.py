@@ -1,6 +1,18 @@
 """
 EmployeeFormPage - OrangeHRM 员工表单页面对象
-封装添加/编辑员工表单的复杂操作，包括多个 Tab 页面
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例实现。
+
+演示了如何封装复杂的表单页面：
+- 多 Tab 页面导航
+- 各类输入框填写（文本、日期、下拉选择等）
+- 单选按钮和复选框操作
+- 文件上传
+- 表单提交和错误处理
+
+如果你的系统有类似的表单页面，可以参考此文件的结构。
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import allure

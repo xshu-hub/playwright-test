@@ -1,7 +1,7 @@
 """
 测试数据加载工具模块
 从 test_data.json 加载测试数据，支持数据驱动测试
-针对 OrangeHRM 人力资源管理系统
+通用的多系统端到端测试框架
 """
 
 import json
@@ -19,16 +19,28 @@ class TestDataLoader:
     @lru_cache(maxsize=1)
     def _load_data(cls) -> dict:
         """
-        加载测试数据文件（带缓存）
+        加载测试数据文件（带缓存和验证）
 
         Returns:
             测试数据字典
+
+        Raises:
+            FileNotFoundError: 测试数据文件不存在
+            ValueError: 测试数据文件缺少必需的键
         """
         if not cls._data_file.exists():
             raise FileNotFoundError(f"测试数据文件不存在: {cls._data_file}")
 
         with open(cls._data_file, encoding="utf-8") as f:
-            return json.load(f)
+            data = json.load(f)
+
+        # 验证数据结构
+        required_keys = ["users", "error_messages"]
+        missing_keys = [key for key in required_keys if key not in data]
+        if missing_keys:
+            raise ValueError(f"测试数据文件缺少必需的键: {missing_keys}")
+
+        return data
 
     @classmethod
     def get_user(cls, user_type: str = "admin") -> dict:

@@ -1,7 +1,13 @@
 """
 Pytest fixtures 配置文件
-提供浏览器、页面和页面对象的 fixtures
-针对 OrangeHRM 人力资源管理系统
+
+此文件包含两类 fixtures：
+1. [框架核心] 通用 fixtures - 可直接复用于任何项目
+2. [示例代码] OrangeHRM 示例 fixtures - 针对 OrangeHRM Demo 的示例
+
+如果你要测试自己的系统：
+- 框架核心 fixtures 可直接使用，无需修改
+- 参考 OrangeHRM 示例 fixtures 创建你自己的页面对象 fixtures
 """
 
 import contextlib
@@ -18,6 +24,11 @@ from pages.employee_form_page import EmployeeFormPage
 from pages.login_page import LoginPage
 from pages.pim_page import PIMPage
 from utils.logger import logger
+
+
+# ==============================================================================
+# [框架核心] 命令行参数
+# ==============================================================================
 
 
 def pytest_addoption(parser):
@@ -41,6 +52,11 @@ def pytest_addoption(parser):
         default=False,
         help="Save session state after login for future reuse",
     )
+
+
+# ==============================================================================
+# [框架核心] 基础配置 Fixtures
+# ==============================================================================
 
 
 @pytest.fixture(scope="session")
@@ -72,6 +88,11 @@ def reuse_session(request) -> bool:
 def save_session(request) -> bool:
     """获取是否保存 Session"""
     return request.config.getoption("--save-session", default=False)
+
+
+# ==============================================================================
+# [框架核心] 浏览器和页面 Fixtures
+# ==============================================================================
 
 
 @pytest.fixture(scope="session")
@@ -141,7 +162,9 @@ def page(context: BrowserContext) -> Generator[Page, None, None]:
     page.close()
 
 
-# ==================== Session 复用相关 Fixtures ====================
+# ==============================================================================
+# [框架核心] Session 复用 Fixtures
+# ==============================================================================
 
 
 def _get_session_file(username: str | None = None) -> Path:
@@ -149,20 +172,63 @@ def _get_session_file(username: str | None = None) -> Path:
     return settings.get_session_file_path(username)
 
 
-def _is_session_valid(session_file: Path) -> bool:
+def _is_session_valid(session_file: Path, browser: Browser | None = None) -> bool:
     """
     检查 session 文件是否存在且有效
 
+    通过加载 session 并访问需要登录的页面来验证有效性
+
     Args:
         session_file: session 文件路径
+        browser: 浏览器实例，用于验证 session 有效性
 
     Returns:
         session 是否有效
     """
+    import json
+
     if not session_file.exists():
         return False
+    if session_file.stat().st_size < 10:
+        return False
 
-    return not session_file.stat().st_size < 10
+    # 验证 JSON 格式
+    try:
+        with open(session_file, encoding="utf-8") as f:
+            data = json.load(f)
+            if "cookies" not in data and "origins" not in data:
+                return False
+    except (json.JSONDecodeError, OSError):
+        return False
+
+    # 如果没有 browser 实例，只做基本检查
+    if browser is None:
+        return True
+
+    # 通过实际请求验证 session 有效性
+    try:
+        context_config = settings.get_context_config()
+        context_config["storage_state"] = str(session_file)
+        context = browser.new_context(**context_config)
+        page = context.new_page()
+
+        try:
+            validation_url = f"{settings.BASE_URL}{settings.SESSION_VALIDATION_PATH}"
+            page.goto(validation_url, timeout=10000)
+
+            current_url = page.url
+            is_valid = settings.LOGIN_URL_PATTERN not in current_url
+
+            if not is_valid:
+                logger.debug(f"Session 已失效（被重定向到登录页）: {current_url}")
+
+            return is_valid
+        finally:
+            page.close()
+            context.close()
+    except Exception as e:
+        logger.warning(f"Session 验证失败: {e}")
+        return False
 
 
 @pytest.fixture(scope="session")
@@ -177,6 +243,9 @@ def auth_state(
     2. 如果不存在或不复用，则执行登录并保存 session
     3. 返回 session 文件路径供其他 fixtures 使用
 
+    注意：此 fixture 使用 OrangeHRM 的登录逻辑作为示例。
+    如果你的系统登录流程不同，需要修改登录部分的代码。
+
     Args:
         browser: 浏览器实例
         reuse_session: 是否复用已保存的 session
@@ -187,7 +256,7 @@ def auth_state(
     """
     session_file = _get_session_file(settings.ADMIN_USER)
 
-    if reuse_session and _is_session_valid(session_file):
+    if reuse_session and _is_session_valid(session_file, browser):
         logger.info(f"复用已保存的 Session: {session_file}")
         yield session_file
         return
@@ -200,6 +269,7 @@ def auth_state(
         page = context.new_page()
 
         try:
+            # [示例] OrangeHRM 登录逻辑 - 如果你的系统不同，请修改此处
             login_page = LoginPage(page)
             login_page.open().login_as_admin()
 
@@ -236,7 +306,7 @@ def auth_context(
     """
     context_config = settings.get_context_config()
 
-    if auth_state and _is_session_valid(auth_state):
+    if auth_state and _is_session_valid(auth_state, browser):
         context_config["storage_state"] = str(auth_state)
         logger.debug("使用保存的 Session 状态创建上下文")
 
@@ -264,13 +334,16 @@ def auth_page(auth_context: BrowserContext) -> Generator[Page, None, None]:
     page.close()
 
 
-# ==================== 页面对象 Fixtures ====================
+# ==============================================================================
+# [示例代码] OrangeHRM 页面对象 Fixtures
+# 以下 fixtures 是针对 OrangeHRM Demo 的示例，如果测试其他系统请参考创建自己的 fixtures
+# ==============================================================================
 
 
 @pytest.fixture(scope="function")
 def login_page(page: Page) -> LoginPage:
     """
-    创建登录页面对象
+    [OrangeHRM 示例] 创建登录页面对象
 
     Args:
         page: 页面实例
@@ -284,7 +357,7 @@ def login_page(page: Page) -> LoginPage:
 @pytest.fixture(scope="function")
 def dashboard_page(page: Page) -> DashboardPage:
     """
-    创建仪表盘页面对象
+    [OrangeHRM 示例] 创建仪表盘页面对象
 
     Args:
         page: 页面实例
@@ -298,7 +371,7 @@ def dashboard_page(page: Page) -> DashboardPage:
 @pytest.fixture(scope="function")
 def pim_page(page: Page) -> PIMPage:
     """
-    创建 PIM 页面对象
+    [OrangeHRM 示例] 创建 PIM 页面对象
 
     Args:
         page: 页面实例
@@ -312,7 +385,7 @@ def pim_page(page: Page) -> PIMPage:
 @pytest.fixture(scope="function")
 def employee_form_page(page: Page) -> EmployeeFormPage:
     """
-    创建员工表单页面对象
+    [OrangeHRM 示例] 创建员工表单页面对象
 
     Args:
         page: 页面实例
@@ -323,13 +396,15 @@ def employee_form_page(page: Page) -> EmployeeFormPage:
     return EmployeeFormPage(page)
 
 
-# ==================== 已登录状态的页面 Fixtures ====================
+# ==============================================================================
+# [示例代码] OrangeHRM 已登录状态 Fixtures
+# ==============================================================================
 
 
 @pytest.fixture(scope="function")
 def logged_in_page(page: Page) -> Generator[Page, None, None]:
     """
-    已登录状态的页面
+    [OrangeHRM 示例] 已登录状态的页面
 
     Args:
         page: 页面实例
@@ -346,7 +421,7 @@ def logged_in_page(page: Page) -> Generator[Page, None, None]:
 @pytest.fixture(scope="function")
 def logged_in_dashboard(logged_in_page: Page) -> DashboardPage:
     """
-    已登录状态的仪表盘页面
+    [OrangeHRM 示例] 已登录状态的仪表盘页面
 
     Args:
         logged_in_page: 已登录的页面实例
@@ -360,7 +435,7 @@ def logged_in_dashboard(logged_in_page: Page) -> DashboardPage:
 @pytest.fixture(scope="function")
 def logged_in_pim(logged_in_page: Page) -> PIMPage:
     """
-    已登录状态的 PIM 页面
+    [OrangeHRM 示例] 已登录状态的 PIM 页面
 
     Args:
         logged_in_page: 已登录的页面实例
@@ -376,7 +451,7 @@ def logged_in_pim(logged_in_page: Page) -> PIMPage:
 @pytest.fixture(scope="function")
 def employee_form(logged_in_page: Page) -> EmployeeFormPage:
     """
-    已登录状态下的员工表单页面
+    [OrangeHRM 示例] 已登录状态下的员工表单页面
     （导航到添加员工页面）
 
     Args:
@@ -391,7 +466,9 @@ def employee_form(logged_in_page: Page) -> EmployeeFormPage:
     return EmployeeFormPage(logged_in_page)
 
 
-# ==================== Hooks ====================
+# ==============================================================================
+# [框架核心] Pytest Hooks
+# ==============================================================================
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -403,7 +480,13 @@ def pytest_runtest_makereport(item, call):
     report = outcome.get_result()
 
     if report.when == "call" and report.failed:
-        page = item.funcargs.get("page") or item.funcargs.get("logged_in_page")
+        # 尝试多种方式获取 page
+        page = None
+        for key in ["page", "logged_in_page", "auth_page"]:
+            page = item.funcargs.get(key)
+            if page:
+                break
+
         if page and settings.SCREENSHOT_ON_FAILURE:
             with contextlib.suppress(Exception):
                 screenshot = page.screenshot(full_page=True)
@@ -414,8 +497,11 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_configure(config):
     """pytest 配置钩子"""
+    # 框架通用标记
     config.addinivalue_line("markers", "smoke: 冒烟测试")
     config.addinivalue_line("markers", "regression: 回归测试")
+    config.addinivalue_line("markers", "e2e: 端到端测试")
+
+    # OrangeHRM 示例标记
     config.addinivalue_line("markers", "login: 登录相关测试")
     config.addinivalue_line("markers", "pim: PIM 员工管理相关测试")
-    config.addinivalue_line("markers", "e2e: 端到端测试")

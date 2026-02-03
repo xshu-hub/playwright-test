@@ -1,6 +1,8 @@
 # Playwright Web 自动化测试框架
 
-基于 **Playwright + Pytest + Allure + Page Object** 模式的 Web 自动化测试框架。
+基于 **Playwright + Pytest + Allure + Page Object** 模式的通用 Web 自动化测试框架。
+
+本项目提供了一套完整的测试框架骨架，并以 **OrangeHRM** 人力资源管理系统作为示例，展示如何构建端到端的自动化测试。
 
 ## 特性
 
@@ -11,40 +13,81 @@
 - **Allure 报告**：美观详细的测试报告，支持截图和步骤记录
 - **失败自动重试**：测试失败自动重试机制，提高测试稳定性
 - **并行执行**：支持多进程并行执行测试，加快执行速度
-- **CI/CD 集成**：内置 GitHub Actions 配置，支持自动化测试流水线
+- **CI/CD 集成**：内置 Jenkins 配置，支持自动化测试流水线
 - **日志记录**：完善的日志系统，支持控制台和文件双输出
 - **环境配置**：支持通过环境变量灵活配置测试环境
 
-## 项目结构
+## 框架结构
+
+本框架分为 **核心组件**（可直接复用）和 **示例代码**（参考实现）两部分：
 
 ```
 playwright-test/
-├── .github/workflows/     # GitHub Actions CI/CD 配置
-│   └── test.yml           # 测试工作流配置
-├── config/                # 配置模块
-│   └── settings.py        # 项目配置类
-├── pages/                 # Page Object 页面对象
-│   ├── base_page.py       # 页面基类
-│   ├── login_page.py      # 登录页面
-│   ├── inventory_page.py  # 商品列表页面
-│   └── cart_page.py       # 购物车页面
-├── tests/                 # 测试用例
-│   ├── conftest.py        # Pytest fixtures 配置
-│   ├── test_login.py      # 登录功能测试
-│   └── test_cart.py       # 购物车功能测试
-├── utils/                 # 工具模块
-│   ├── data_loader.py     # 测试数据加载器
-│   └── logger.py          # 日志工具
-├── data/                  # 测试数据
-│   ├── test_data.json     # 测试数据文件
-│   └── sessions/          # Session 状态文件目录（自动生成）
-├── reports/               # 测试报告输出目录
-├── logs/                  # 日志文件目录（自动生成）
-├── .env.example           # 环境变量示例
-├── pytest.ini             # Pytest 配置
-├── ruff.toml              # Ruff 代码检查配置
-└── requirements.txt       # Python 依赖
+├── config/                     # [框架核心] 配置模块
+│   └── settings.py             # 项目配置类
+├── pages/                      # Page Object 页面对象
+│   ├── base_page.py            # [框架核心] 页面基类 - 可直接复用
+│   ├── login_page.py           # [示例] OrangeHRM 登录页面
+│   ├── dashboard_page.py       # [示例] OrangeHRM 仪表盘页面
+│   ├── pim_page.py             # [示例] OrangeHRM PIM 员工管理页面
+│   └── employee_form_page.py   # [示例] OrangeHRM 员工表单页面
+├── tests/                      # 测试用例
+│   ├── conftest.py             # [框架核心 + 示例] Pytest fixtures
+│   ├── test_login.py           # [示例] 登录功能测试
+│   ├── test_employee_form.py   # [示例] 员工表单测试
+│   └── test_employee_e2e.py    # [示例] 员工管理端到端测试
+├── utils/                      # [框架核心] 工具模块 - 可直接复用
+│   ├── data_loader.py          # 测试数据加载器
+│   ├── logger.py               # 日志工具
+│   └── session_manager.py      # 多用户 Session 管理
+├── data/                       # 测试数据
+│   ├── test_data.json          # [示例] OrangeHRM 测试数据
+│   └── sessions/               # Session 状态文件目录（自动生成）
+├── docs/                       # 项目文档
+│   ├── DEVELOPMENT.md          # 开发文档
+│   └── CUSTOMIZATION.md        # 自定义指南
+├── jenkins/                    # Jenkins CI/CD 配置
+│   └── README.md               # Jenkins 配置指南
+├── reports/                    # 测试报告输出目录
+├── logs/                       # 日志文件目录（自动生成）
+├── .env.example                # 环境变量示例
+├── pytest.ini                  # Pytest 配置
+├── Jenkinsfile                 # Jenkins 流水线配置
+└── requirements.txt            # Python 依赖
 ```
+
+### 框架核心组件（可直接复用）
+
+| 组件 | 路径 | 说明 |
+|------|------|------|
+| 页面基类 | `pages/base_page.py` | 封装 Playwright 常用操作，所有页面对象继承此类 |
+| 配置模块 | `config/settings.py` | 环境变量驱动的配置管理 |
+| 日志工具 | `utils/logger.py` | 控制台 + 文件双输出日志 |
+| 数据加载器 | `utils/data_loader.py` | JSON 测试数据加载 |
+| Session 管理 | `utils/session_manager.py` | 多用户登录状态管理 |
+| 基础 Fixtures | `tests/conftest.py` | 浏览器、页面、Session 复用等 |
+
+### 示例代码（OrangeHRM）
+
+示例代码展示了如何针对 [OrangeHRM Demo](https://opensource-demo.orangehrmlive.com) 构建测试：
+
+| 组件 | 路径 | 说明 |
+|------|------|------|
+| 登录页面 | `pages/login_page.py` | OrangeHRM 登录页面对象 |
+| 仪表盘页面 | `pages/dashboard_page.py` | OrangeHRM 仪表盘页面对象 |
+| PIM 页面 | `pages/pim_page.py` | OrangeHRM 员工管理页面对象 |
+| 登录测试 | `tests/test_login.py` | 登录功能测试用例 |
+| 员工测试 | `tests/test_employee_*.py` | 员工管理测试用例 |
+| 测试数据 | `data/test_data.json` | OrangeHRM 测试数据 |
+
+## 文档
+
+| 文档 | 说明 |
+|------|------|
+| [README.md](README.md) | 项目说明（本文件） |
+| [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) | 详细开发文档 |
+| [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) | 自定义指南：如何为你的系统创建测试 |
+| [jenkins/README.md](jenkins/README.md) | Jenkins 配置指南 |
 
 ## 快速开始
 
@@ -67,16 +110,42 @@ pip install -r requirements.txt
 playwright install
 ```
 
-### 2. 配置环境变量（可选）
+### 2. 运行示例测试（OrangeHRM）
+
+框架内置了针对 OrangeHRM Demo 的示例测试，可直接运行：
+
+```bash
+# 运行所有测试（无头模式）
+pytest
+
+# 有头模式运行（可视化）
+pytest --headed
+
+# 运行冒烟测试
+pytest -m smoke
+
+# 运行登录测试
+pytest -m login
+```
+
+### 3. 配置你的测试环境
+
+如果要测试自己的系统，复制并修改环境变量配置：
 
 ```bash
 # 复制环境变量示例文件
 cp .env.example .env
 
-# 编辑 .env 文件配置你的测试环境
+# 编辑 .env 文件，修改以下配置：
+# - BASE_URL：你的测试系统 URL
+# - ADMIN_USER / ADMIN_PASSWORD：测试账号
+# - SESSION_VALIDATION_PATH：登录后的页面路径
+# - LOGIN_URL_PATTERN：登录页面 URL 特征
 ```
 
-### 3. 运行测试
+详细的自定义指南请参考 [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md)。
+
+## 运行测试
 
 ```bash
 # 运行所有测试（无头模式）
@@ -95,14 +164,14 @@ pytest --headed --slowmo 500
 
 # 运行带标记的测试
 pytest -m smoke          # 冒烟测试
+pytest -m regression     # 回归测试
 pytest -m login          # 登录测试
-pytest -m cart           # 购物车测试
+pytest -m pim            # PIM 员工管理测试
 pytest -m "smoke and login"  # 组合标记
 
-# 并行运行测试（pytest-xdist，已安装）
+# 并行运行测试（pytest-xdist）
 pytest -n auto           # 按 CPU 核心数自动开进程（推荐）
 pytest -n 4              # 指定 4 个 worker
-pytest -n 2 tests/       # 只对 tests/ 目录并行，2 个进程
 
 # 跳过失败重试
 pytest --reruns 0
@@ -114,11 +183,11 @@ pytest --reuse-session     # 后续运行：复用已保存的登录状态
 # 运行单个测试文件
 pytest tests/test_login.py
 
-# 运行单个测试类或方法
-pytest tests/test_login.py::TestLogin::test_login_with_standard_user
+# 运行单个测试方法
+pytest tests/test_login.py::TestLogin::test_login_with_admin
 ```
 
-### 4. 并行运行（可选）
+### 并行运行
 
 项目已安装 **pytest-xdist**，可直接并行执行用例以缩短总耗时：
 
@@ -130,9 +199,9 @@ pytest -n auto
 pytest -n 4
 ```
 
-**说明：** 并行时每个 worker 是独立进程、各自起浏览器；与 `--reuse-session` / `--save-session` 同时用时，多进程可能同时读写同一 session 文件，建议并行时不启用 session 复用，或仅用 `-n 2` 等较小进程数并自行验证。
+**注意：** 并行时每个 worker 是独立进程、各自起浏览器；与 `--reuse-session` / `--save-session` 同时用时，多进程可能同时读写同一 session 文件，建议并行时不启用 session 复用。
 
-### 5. 查看 Allure 报告
+### 查看 Allure 报告
 
 ```bash
 # 生成并打开报告（需要安装 Allure 命令行工具）
@@ -149,32 +218,30 @@ allure open reports/allure-report
 
 支持通过 `.env` 文件或系统环境变量进行配置：
 
+#### 框架通用配置
+
 | 变量名 | 说明 | 默认值 |
 |--------|------|--------|
-| `BASE_URL` | 测试目标网站 URL | https://www.saucedemo.com |
 | `TIMEOUT` | 默认超时时间（毫秒） | 30000 |
 | `HEADLESS` | 是否无头模式 | true |
 | `SLOW_MO` | 慢动作延迟（毫秒） | 0 |
 | `VIEWPORT_WIDTH` | 浏览器视口宽度 | 1920 |
 | `VIEWPORT_HEIGHT` | 浏览器视口高度 | 1080 |
 | `SCREENSHOT_ON_FAILURE` | 失败时自动截图 | true |
-| `REUSE_SESSION` | 是否复用已保存的 Session | false |
-| `SESSION_FILE` | Session 文件名 | auth_state.json |
 | `LOG_LEVEL` | 控制台日志级别 | INFO |
 | `FILE_LOG_LEVEL` | 文件日志级别 | DEBUG |
 
-### 测试用户
+#### 目标系统配置（需根据你的系统修改）
 
-项目预配置了 saucedemo.com 的测试用户：
-
-| 用户类型 | 环境变量 | 说明 |
-|----------|----------|------|
-| 标准用户 | `STANDARD_USER` | 可正常登录和操作 |
-| 锁定用户 | `LOCKED_USER` | 被锁定，无法登录 |
-| 问题用户 | `PROBLEM_USER` | 部分功能异常 |
-| 性能用户 | `PERFORMANCE_USER` | 响应较慢 |
-| 错误用户 | `ERROR_USER` | 会触发错误 |
-| 视觉用户 | `VISUAL_USER` | 界面有差异 |
+| 变量名 | 说明 | 示例默认值（OrangeHRM） |
+|--------|------|--------|
+| `BASE_URL` | 测试目标网站 URL | https://opensource-demo.orangehrmlive.com |
+| `ADMIN_USER` | 管理员用户名 | Admin |
+| `ADMIN_PASSWORD` | 管理员密码 | admin123 |
+| `SESSION_VALIDATION_PATH` | Session 验证路径 | /dashboard |
+| `LOGIN_URL_PATTERN` | 登录页面 URL 特征 | /login |
+| `REUSE_SESSION` | 是否复用已保存的 Session | false |
+| `SESSION_FILE` | Session 文件名 | auth_state.json |
 
 ### pytest.ini 配置
 
@@ -193,249 +260,120 @@ allure open reports/allure-report
 | `@pytest.mark.smoke` | 冒烟测试 | `pytest -m smoke` |
 | `@pytest.mark.regression` | 回归测试 | `pytest -m regression` |
 | `@pytest.mark.login` | 登录相关测试 | `pytest -m login` |
-| `@pytest.mark.cart` | 购物车相关测试 | `pytest -m cart` |
+| `@pytest.mark.pim` | PIM 员工管理测试 | `pytest -m pim` |
+| `@pytest.mark.e2e` | 端到端测试 | `pytest -m e2e` |
 
-## 编写测试用例
+## 为你的系统创建测试
 
-### Page Object 示例
+详细指南请参考 [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md)，以下是快速概览：
+
+### 1. 创建页面对象
 
 ```python
-from pages.login_page import LoginPage
+# pages/your_login_page.py
+from pages.base_page import BasePage
+from config.settings import settings
 
-def test_login(page):
-    login_page = LoginPage(page)
-    login_page.open()
-    login_page.login("standard_user", "secret_sauce")
-    assert login_page.is_logged_in()
+class YourLoginPage(BasePage):
+    """你的系统登录页面"""
+    
+    page_name = "YourLoginPage"
+    
+    # 定义页面元素定位器
+    USERNAME_INPUT = "#username"
+    PASSWORD_INPUT = "#password"
+    LOGIN_BUTTON = "button[type='submit']"
+    
+    def __init__(self, page):
+        super().__init__(page)
+        self.url = f"{settings.BASE_URL}/login"
+    
+    def open(self):
+        self.navigate(self.url)
+        return self
+    
+    def login(self, username: str, password: str):
+        self.fill(self.USERNAME_INPUT, username)
+        self.fill(self.PASSWORD_INPUT, password)
+        self.click(self.LOGIN_BUTTON)
+        return self
 ```
 
-### 使用 Fixture
+### 2. 编写测试用例
 
 ```python
+# tests/test_your_login.py
 import pytest
-from pages.login_page import LoginPage
+from pages.your_login_page import YourLoginPage
 
-class TestLogin:
-    def test_login_success(self, login_page: LoginPage):
-        """使用 login_page fixture"""
+class TestYourLogin:
+    
+    @pytest.mark.smoke
+    def test_login_success(self, page):
+        login_page = YourLoginPage(page)
         login_page.open()
-        login_page.login_as_standard_user()
-        assert login_page.is_logged_in()
-    
-    def test_with_logged_in_page(self, logged_in_page):
-        """使用已登录的页面 fixture"""
-        assert "inventory" in logged_in_page.url
-```
-
-### 使用 Allure 装饰器
-
-```python
-import allure
-
-@allure.feature("登录功能")
-@allure.story("正常登录")
-@allure.severity(allure.severity_level.CRITICAL)
-class TestLogin:
-    
-    @allure.title("使用标准用户登录成功")
-    def test_valid_login(self, login_page):
-        with allure.step("打开登录页面"):
-            login_page.open()
+        login_page.login("your_user", "your_password")
         
-        with allure.step("输入凭证并登录"):
-            login_page.login_as_standard_user()
-        
-        with allure.step("验证登录成功"):
-            assert login_page.is_logged_in()
+        assert "dashboard" in page.url
 ```
 
-### 数据驱动测试
-
-```python
-import pytest
-from utils.data_loader import TestDataLoader
-
-@pytest.mark.parametrize(
-    "user_type",
-    ["standard_user", "problem_user"],
-    ids=["标准用户", "问题用户"]
-)
-def test_users_can_login(self, login_page, user_type: str):
-    user_data = TestDataLoader.get_user(user_type)
-    login_page.open()
-    login_page.login(user_data["username"], user_data["password"])
-    assert login_page.is_logged_in()
-```
-
-### 使用 Session 复用
-
-Session 复用可以显著加速需要登录的测试，避免每次测试都执行登录流程。
-
-```python
-class TestWithSessionReuse:
-    """使用 Session 复用的测试类"""
-    
-    def test_inventory_with_session(self, auth_inventory_page):
-        """使用 auth_inventory_page fixture（支持 Session 复用）"""
-        # 如果启用了 --reuse-session，会跳过登录直接进入商品页
-        assert auth_inventory_page.get_product_count() > 0
-    
-    def test_cart_with_session(self, auth_cart_page):
-        """使用 auth_cart_page fixture（支持 Session 复用）"""
-        # 如果启用了 --reuse-session，会跳过登录直接进入购物车
-        assert auth_cart_page.is_cart_page()
-```
-
-**使用步骤：**
+### 3. 配置环境变量
 
 ```bash
-# 步骤 1：首次运行，保存登录状态
-pytest tests/test_cart.py --save-session
-
-# 步骤 2：后续运行，复用已保存的登录状态（显著加速）
-pytest tests/test_cart.py --reuse-session
-
-# 或者通过环境变量启用
-REUSE_SESSION=true pytest tests/test_cart.py
+# .env
+BASE_URL=https://your-system.example.com
+ADMIN_USER=your_admin
+ADMIN_PASSWORD=your_password
+SESSION_VALIDATION_PATH=/dashboard
+LOGIN_URL_PATTERN=/login
 ```
-
-**注意事项：**
-- Session 文件保存在 `data/sessions/` 目录
-- Session 文件包含敏感的认证信息，已添加到 `.gitignore`
-- 如果 Session 过期或失效，删除 `data/sessions/` 目录后重新运行 `--save-session`
-
-### 多角色/多用户测试
-
-对于需要多个用户角色参与的测试场景（如审批流程、消息传递等），可以使用 `session_manager` 或 `user_page_factory` fixture。
-
-#### 使用 SessionManager（推荐）
-
-```python
-class TestApprovalWorkflow:
-    """多角色审批流程测试"""
-    
-    def test_submit_and_approve(self, session_manager):
-        """用户提交申请 -> 管理员审批 -> 用户查看结果"""
-        # 用户提交申请
-        user_page = session_manager.get_authenticated_page(
-            username="standard_user",
-            password="secret_sauce",
-            start_url="https://www.saucedemo.com/inventory.html"
-        )
-        user_page.click("[data-test='add-to-cart-sauce-labs-backpack']")
-        
-        # 切换到另一个用户（模拟管理员）
-        admin_page = session_manager.get_authenticated_page(
-            username="problem_user",
-            password="secret_sauce",
-            start_url="https://www.saucedemo.com/inventory.html"
-        )
-        # 管理员执行操作...
-        
-        # 返回原用户查看结果
-        user_page.goto("https://www.saucedemo.com/cart.html")
-        assert user_page.locator(".cart_item").count() == 1
-```
-
-#### 使用 user_page_factory
-
-```python
-class TestMultiUserInteraction:
-    """多用户交互测试"""
-    
-    def test_user_interaction(self, user_page_factory):
-        """使用工厂函数创建多个用户的页面"""
-        # 动态创建用户页面
-        user1_page = user_page_factory("standard_user", "secret_sauce")
-        user2_page = user_page_factory("visual_user", "secret_sauce")
-        
-        # 用户1添加商品
-        user1_page.goto("https://www.saucedemo.com/inventory.html")
-        user1_page.click("[data-test='add-to-cart-sauce-labs-backpack']")
-        
-        # 用户2独立操作（不受用户1影响）
-        user2_page.goto("https://www.saucedemo.com/inventory.html")
-        assert user2_page.locator(".shopping_cart_badge").count() == 0
-```
-
-#### 自定义登录逻辑
-
-对于非 saucedemo.com 的项目，可以自定义登录逻辑：
-
-```python
-def test_with_custom_login(self, session_manager):
-    """使用自定义登录函数"""
-    
-    def my_login(page, username, password):
-        page.goto("https://my-app.com/login")
-        page.fill("#username", username)
-        page.fill("#password", password)
-        page.click("#login-btn")
-        page.wait_for_url("**/dashboard")
-    
-    # 设置自定义登录函数
-    session_manager.set_custom_login(my_login)
-    
-    # 获取不同角色的页面
-    admin_page = session_manager.get_authenticated_page("admin", "admin123")
-    user_page = session_manager.get_authenticated_page("user", "user123")
-```
-
-## 代码质量
-
-项目使用 Ruff 进行代码质量检查和格式化：
-
-```bash
-# 代码检查
-ruff check .
-
-# 自动修复
-ruff check --fix .
-
-# 代码格式化
-ruff format .
-
-# 检查格式（不修改）
-ruff format --check .
-```
-
-## CI/CD
-
-项目内置 GitHub Actions 配置（`.github/workflows/test.yml`），支持：
-
-- **自动触发**：Push/PR 自动触发测试
-- **代码质量检查**：Ruff 代码检查和格式验证
-- **多版本测试**：Python 3.10/3.11/3.12 矩阵测试
-- **多浏览器测试**：Chromium/Firefox/WebKit 矩阵测试
-- **PR 冒烟测试**：PR 时只运行冒烟测试，快速反馈
-- **Allure 报告**：自动生成并发布到 GitHub Pages
-- **失败截图**：测试失败时自动上传截图
-
-### 手动触发测试
-
-在 GitHub Actions 页面可以手动触发测试，支持选择：
-- 浏览器类型：chromium / firefox / webkit / all
-- Python 版本：3.10 / 3.11 / 3.12
 
 ## 可用的 Fixtures
 
+### 框架核心 Fixtures
+
 | Fixture | Scope | 说明 |
 |---------|-------|------|
-| `page` | function | Playwright 页面实例 |
-| `context` | function | 浏览器上下文 |
+| `playwright_instance` | session | Playwright 实例 |
 | `browser` | session | 浏览器实例 |
-| `login_page` | function | 登录页面对象 |
-| `inventory_page` | function | 商品列表页面对象 |
-| `cart_page` | function | 购物车页面对象 |
-| `logged_in_page` | function | 已登录的页面实例 |
-| `logged_in_inventory_page` | function | 已登录的商品列表页面 |
+| `context` | function | 浏览器上下文 |
+| `page` | function | Playwright 页面实例 |
 | `auth_state` | session | Session 状态文件路径 |
 | `auth_context` | function | 已认证的浏览器上下文（支持 Session 复用） |
 | `auth_page` | function | 已认证的页面实例（支持 Session 复用） |
-| `auth_inventory_page` | function | 已认证的商品列表页面（支持 Session 复用） |
-| `auth_cart_page` | function | 已认证的购物车页面（支持 Session 复用） |
-| `session_manager` | function | 多用户 Session 管理器（支持多角色测试） |
-| `user_page_factory` | function | 用户页面工厂函数（动态创建多用户页面） |
+
+### OrangeHRM 示例 Fixtures
+
+| Fixture | Scope | 说明 |
+|---------|-------|------|
+| `login_page` | function | 登录页面对象 |
+| `dashboard_page` | function | 仪表盘页面对象 |
+| `pim_page` | function | PIM 页面对象 |
+| `employee_form_page` | function | 员工表单页面对象 |
+| `logged_in_page` | function | 已登录的页面实例 |
+| `logged_in_dashboard` | function | 已登录的仪表盘页面 |
+| `logged_in_pim` | function | 已登录的 PIM 页面 |
+
+## CI/CD
+
+项目内置 Jenkins 流水线配置（`Jenkinsfile`），支持：
+
+- **参数化构建**：支持选择浏览器、冒烟测试
+- **自动化测试**：Playwright 测试执行
+- **Allure 报告**：自动生成 Allure 测试报告
+- **JUnit 报告**：Jenkins 内置测试结果展示
+- **构建产物归档**：自动归档测试报告和失败截图
+
+### Jenkins 配置
+
+详细的 Jenkins 配置说明请参考 [jenkins/README.md](jenkins/README.md)。
+
+### 构建参数
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| BROWSER | 选择测试浏览器 | chromium |
+| RUN_SMOKE_ONLY | 只运行冒烟测试 | false |
 
 ## 常见问题
 
@@ -462,7 +400,7 @@ playwright install
 pytest --headed --slowmo 1000 tests/test_login.py -v
 
 # 使用 PWDEBUG 调试模式
-PWDEBUG=1 pytest tests/test_login.py::TestLogin::test_login_with_standard_user
+PWDEBUG=1 pytest tests/test_login.py::TestLogin::test_login_with_admin
 ```
 
 ### 4. 如何只安装特定浏览器
@@ -474,6 +412,10 @@ playwright install chromium
 # 安装浏览器及系统依赖
 playwright install --with-deps chromium
 ```
+
+### 5. 如何为新系统创建测试
+
+请参考 [docs/CUSTOMIZATION.md](docs/CUSTOMIZATION.md) 自定义指南。
 
 ## 许可证
 

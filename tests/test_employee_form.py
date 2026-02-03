@@ -1,7 +1,19 @@
 """
 员工表单复杂操作测试用例
-测试 OrangeHRM 的各种复杂表单场景
-包括：必填字段验证、日期选择器、下拉框、多 Tab 切换等
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例测试用例。
+
+演示了复杂表单的测试场景：
+- 必填字段验证
+- 日期选择器操作
+- 下拉框选择
+- 多 Tab 页面切换
+- 登录详情设置
+- 测试数据清理
+
+如果你的系统有类似的表单功能，可以参考此文件的测试结构。
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import time

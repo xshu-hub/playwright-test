@@ -1,7 +1,7 @@
 """
 Session 管理器
 支持多用户/多角色的 Session 管理，适用于审批流程等多角色测试场景
-针对 OrangeHRM 人力资源管理系统
+通用的多系统端到端测试框架
 """
 
 import contextlib
@@ -89,10 +89,59 @@ class SessionManager:
         return settings.get_session_file_path(username)
 
     def _is_session_valid(self, session_file: Path) -> bool:
-        """检查 Session 文件是否有效"""
+        """
+        检查 Session 文件是否有效
+
+        通过加载 session 并访问需要登录的页面来验证有效性
+
+        Args:
+            session_file: session 文件路径
+
+        Returns:
+            session 是否有效
+        """
+        import json
+
         if not session_file.exists():
             return False
-        return not session_file.stat().st_size < 10
+        if session_file.stat().st_size < 10:
+            return False
+
+        # 验证 JSON 格式
+        try:
+            with open(session_file, encoding="utf-8") as f:
+                data = json.load(f)
+                if "cookies" not in data and "origins" not in data:
+                    return False
+        except (json.JSONDecodeError, OSError):
+            return False
+
+        # 通过实际请求验证 session 有效性
+        try:
+            context_config = settings.get_context_config()
+            context_config["storage_state"] = str(session_file)
+            context = self.browser.new_context(**context_config)
+            page = context.new_page()
+
+            try:
+                # 访问需要登录的页面
+                validation_url = f"{settings.BASE_URL}{settings.SESSION_VALIDATION_PATH}"
+                page.goto(validation_url, timeout=10000)
+
+                # 检查是否被重定向到登录页面
+                current_url = page.url
+                is_valid = settings.LOGIN_URL_PATTERN not in current_url
+
+                if not is_valid:
+                    logger.debug(f"Session 已失效（被重定向到登录页）: {current_url}")
+
+                return is_valid
+            finally:
+                page.close()
+                context.close()
+        except Exception as e:
+            logger.warning(f"Session 验证失败: {e}")
+            return False
 
     def _perform_login(self, page: Page, username: str, password: str) -> None:
         """

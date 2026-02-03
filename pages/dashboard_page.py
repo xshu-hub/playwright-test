@@ -1,6 +1,16 @@
 """
 DashboardPage - OrangeHRM 仪表盘页面对象
-封装 OrangeHRM 仪表盘页面的元素和操作，包括侧边栏导航
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例实现。
+
+演示了如何封装：
+- 侧边栏导航菜单
+- 用户下拉菜单和退出登录
+- 快速启动卡片区域
+
+如果你要测试自己的系统，请参考此文件的结构创建你的页面对象。
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import allure

@@ -1,6 +1,14 @@
 """
 LoginPage - OrangeHRM 登录页面对象
-封装 OrangeHRM 登录页面的元素和操作
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例实现。
+
+如果你要测试自己的系统，请参考此文件创建你自己的登录页面对象：
+1. 复制此文件并重命名（如 your_login_page.py）
+2. 修改页面元素定位器为你的系统实际的选择器
+3. 调整登录方法以匹配你的系统登录流程
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import allure

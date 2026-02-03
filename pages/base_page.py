@@ -1,8 +1,23 @@
 """
 BasePage - Page Object 模式基类
-封装 Playwright 常用操作，提供统一的页面交互接口
-支持字符串选择器和 Playwright 原生 Locator 对象
-集成日志记录功能
+
+[框架核心] 此文件是框架的核心组件，可直接复用于任何项目。
+
+功能说明：
+- 封装 Playwright 常用操作，提供统一的页面交互接口
+- 支持字符串选择器和 Playwright 原生 Locator 对象
+- 集成日志记录和 Allure 报告功能
+
+使用方法：
+所有页面对象应继承此基类，示例：
+
+    from pages.base_page import BasePage
+
+    class YourPage(BasePage):
+        page_name = "YourPage"
+
+        def __init__(self, page):
+            super().__init__(page)
 """
 
 import allure

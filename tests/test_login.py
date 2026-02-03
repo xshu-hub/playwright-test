@@ -1,6 +1,17 @@
 """
 登录功能测试用例
-测试 OrangeHRM 的登录功能
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例测试用例。
+
+演示了：
+- 正常登录测试
+- 登录失败场景（错误凭证、空字段）
+- 数据驱动的参数化测试
+- 退出登录测试
+
+如果你要测试自己的系统，请参考此文件创建你的登录测试用例。
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import allure

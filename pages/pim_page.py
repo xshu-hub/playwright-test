@@ -1,6 +1,19 @@
 """
 PIMPage - OrangeHRM PIM（人员信息管理）页面对象
-封装员工列表、搜索、添加、编辑、删除等核心功能
+
+[示例代码] 此文件是针对 OrangeHRM Demo 系统的示例实现。
+
+演示了如何封装复杂的列表页面：
+- 搜索和过滤功能
+- 表格数据读取
+- 行内操作（编辑、删除）
+- 删除确认对话框
+- Toast 消息处理
+- 分页操作
+
+如果你的系统有类似的列表管理页面，可以参考此文件的结构。
+
+OrangeHRM Demo: https://opensource-demo.orangehrmlive.com
 """
 
 import contextlib
