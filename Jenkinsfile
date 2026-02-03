@@ -128,6 +128,7 @@ pipeline {
                 
                 // 生成 Allure 报告（需要安装 Allure Jenkins Plugin）
                 allure(
+                    home: 'allure',
                     name: 'allure',
                     properties: [
                         [key: 'allure.results.directory', value: "${ALLURE_RESULTS}"]
