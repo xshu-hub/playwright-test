@@ -15,6 +15,68 @@ from config.settings import settings
 from utils.logger import logger
 
 
+def validate_session_file(session_file: Path, browser: Browser | None = None) -> bool:
+    """
+    检查 session 文件是否存在且有效
+
+    通过加载 session 并访问需要登录的页面来验证有效性。
+    这是一个独立函数，可被 conftest.py 和 SessionManager 复用。
+
+    Args:
+        session_file: session 文件路径
+        browser: 浏览器实例，用于验证 session 有效性。如果为 None，只做基本检查
+
+    Returns:
+        session 是否有效
+    """
+    import json
+
+    if not session_file.exists():
+        return False
+    if session_file.stat().st_size < 10:
+        return False
+
+    # 验证 JSON 格式
+    try:
+        with open(session_file, encoding="utf-8") as f:
+            data = json.load(f)
+            if "cookies" not in data and "origins" not in data:
+                return False
+    except (json.JSONDecodeError, OSError):
+        return False
+
+    # 如果没有 browser 实例，只做基本检查
+    if browser is None:
+        return True
+
+    # 通过实际请求验证 session 有效性
+    try:
+        context_config = settings.get_context_config()
+        context_config["storage_state"] = str(session_file)
+        context = browser.new_context(**context_config)
+        page = context.new_page()
+
+        try:
+            # 访问需要登录的页面
+            validation_url = f"{settings.BASE_URL}{settings.SESSION_VALIDATION_PATH}"
+            page.goto(validation_url, timeout=10000)
+
+            # 检查是否被重定向到登录页面
+            current_url = page.url
+            is_valid = settings.LOGIN_URL_PATTERN not in current_url
+
+            if not is_valid:
+                logger.debug(f"Session 已失效（被重定向到登录页）: {current_url}")
+
+            return is_valid
+        finally:
+            page.close()
+            context.close()
+    except Exception as e:
+        logger.warning(f"Session 验证失败: {e}")
+        return False
+
+
 @dataclass
 class UserCredentials:
     """用户凭证"""
@@ -92,56 +154,13 @@ class SessionManager:
         """
         检查 Session 文件是否有效
 
-        通过加载 session 并访问需要登录的页面来验证有效性
-
         Args:
             session_file: session 文件路径
 
         Returns:
             session 是否有效
         """
-        import json
-
-        if not session_file.exists():
-            return False
-        if session_file.stat().st_size < 10:
-            return False
-
-        # 验证 JSON 格式
-        try:
-            with open(session_file, encoding="utf-8") as f:
-                data = json.load(f)
-                if "cookies" not in data and "origins" not in data:
-                    return False
-        except (json.JSONDecodeError, OSError):
-            return False
-
-        # 通过实际请求验证 session 有效性
-        try:
-            context_config = settings.get_context_config()
-            context_config["storage_state"] = str(session_file)
-            context = self.browser.new_context(**context_config)
-            page = context.new_page()
-
-            try:
-                # 访问需要登录的页面
-                validation_url = f"{settings.BASE_URL}{settings.SESSION_VALIDATION_PATH}"
-                page.goto(validation_url, timeout=10000)
-
-                # 检查是否被重定向到登录页面
-                current_url = page.url
-                is_valid = settings.LOGIN_URL_PATTERN not in current_url
-
-                if not is_valid:
-                    logger.debug(f"Session 已失效（被重定向到登录页）: {current_url}")
-
-                return is_valid
-            finally:
-                page.close()
-                context.close()
-        except Exception as e:
-            logger.warning(f"Session 验证失败: {e}")
-            return False
+        return validate_session_file(session_file, self.browser)
 
     def _perform_login(self, page: Page, username: str, password: str) -> None:
         """

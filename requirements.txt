@@ -1,11 +1,13 @@
 # 核心依赖
-playwright==1.49.0
-pytest==8.3.4
-pytest-playwright==0.5.2
-allure-pytest==2.13.5
-python-dotenv==1.0.1
+playwright==1.57.0
+pytest
+pytest-playwright
+allure-pytest
+python-dotenv
 
 # 测试增强
-pytest-xdist==3.5.0           # 并行测试执行
-pytest-rerunfailures==14.0    # 失败重试机制
-pytest-timeout==2.3.1         # 测试超时控制
+pytest-xdist           # 并行测试执行
+pytest-rerunfailures   # 失败重试机制
+pytest-timeout        # 测试超时控制
+
+allure-python-commons
