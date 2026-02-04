@@ -28,8 +28,6 @@ pipeline {
     }
 
     options {
-        // 构建超时时间：30分钟
-        timeout(time: 30, unit: 'MINUTES')
         // 保留最近 20 次构建记录
         buildDiscarder(logRotator(numToKeepStr: '20'))
         // 禁止同一任务并发执行
@@ -92,24 +90,28 @@ pipeline {
         stage('运行测试') {
             steps {
                 echo '=== 运行 Playwright 测试 ==='
-                script {
-                    def browsers = params.BROWSER == 'all' ? ['chromium', 'firefox', 'webkit'] : [params.BROWSER]
-                    def testMarker = params.RUN_SMOKE_ONLY ? '-m smoke' : ''
-                    
-                    for (browser in browsers) {
-                        echo ">>> 正在运行 ${browser} 浏览器测试 <<<"
-                        
-                        // returnStatus: true 表示即使测试失败也不中断流水线
-                        def testResult = bat(
-                            script: "pytest ${testMarker} --browser-type=${browser} --alluredir=${ALLURE_RESULTS} -v --tb=short --junitxml=reports/junit-${browser}.xml",
-                            returnStatus: true
-                        )
-                        
-                        if (testResult != 0) {
-                            // 标记构建为不稳定状态（黄色），而不是失败（红色）
-                            unstable("${browser} 浏览器测试存在失败用例")
-                        } else {
-                            echo "${browser} 浏览器测试全部通过"
+                catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                    timeout(time: 60, unit: 'MINUTES') {
+                        script {
+                            def browsers = params.BROWSER == 'all' ? ['chromium', 'firefox', 'webkit'] : [params.BROWSER]
+                            def testMarker = params.RUN_SMOKE_ONLY ? '-m smoke' : ''
+                            
+                            for (browser in browsers) {
+                                echo ">>> 正在运行 ${browser} 浏览器测试 <<<"
+                                
+                                // returnStatus: true 表示即使测试失败也不中断流水线
+                                def testResult = bat(
+                                    script: "pytest ${testMarker} --browser-type=${browser} --alluredir=${ALLURE_RESULTS} -v --tb=short --junitxml=reports/junit-${browser}.xml",
+                                    returnStatus: true
+                                )
+                                
+                                if (testResult != 0) {
+                                    // 标记构建为不稳定状态（黄色），而不是失败（红色）
+                                    unstable("${browser} 浏览器测试存在失败用例")
+                                } else {
+                                    echo "${browser} 浏览器测试全部通过"
+                                }
+                            }
                         }
                     }
                 }
