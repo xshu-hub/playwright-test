@@ -122,20 +122,16 @@ pipeline {
             steps {
                 echo '=== 生成测试报告 ==='
                 
-                // 发布 JUnit 测试报告（Jenkins 内置支持）
+                // 发布 JUnit 测试报告
                 junit(
                     testResults: 'reports/junit-*.xml',
                     allowEmptyResults: true
                 )
                 
-                // 生成 Allure 报告（需要安装 Allure Jenkins Plugin）
-                allure(
-                    home: 'allure',
-                    name: 'allure',
-                    properties: [
-                        [key: 'allure.results.directory', value: "${ALLURE_RESULTS}"]
-                    ]
-                )
+                // 修复后的 Allure 配置
+                allure includeProperties: false, 
+                       jdk: '', 
+                       results: [[path: "${env.ALLURE_RESULTS}"]]
                 
                 echo '报告生成完成，可在构建页面查看'
             }
